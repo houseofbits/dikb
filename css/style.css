@@ -364,7 +364,6 @@ div.image_icon_container{
     margin-bottom:0px;
     border:none 1px #000;
     text-align:center;  
-    opacity:0;
 }
 div.image_icon_container>div:nth-child(1){
     width:182px;

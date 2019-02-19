@@ -17,16 +17,12 @@ include("conf.php");
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
     <script type="text/javascript" src="<?=BASE_URL;?>/js/jquery.backgroundpos.min.js"></script>
     <link rel="stylesheet" href="<?=BASE_URL;?>/css/style.css" type="text/css" />
-
 </head>
 <body>
 <div id="bg"><div></div></div>
 <div id="mainApp" v-cloak>
-
-
-
     <div id="header">
-        <img src="img/logo.png" width="122" height="131" v-on:click="loadMain()"/>
+        <img src="img/logo.png" width="122" height="131" v-on:click="showMain()"/>
         <p>Telefona nr. +371 29648203</p>
         <p>Epasts: dikb@dikb.lv</p>
         <!--ul id="main_menu">
@@ -40,7 +36,7 @@ include("conf.php");
     <div id="content">
         <div id="active_content" :class="{faded:!loading}">
 
-            <div id="main">
+            <div v-show="isMain">
                 <div id="intro">
                     <div>
                         <div class="dark_image_title">Interjera noformējums</div>
@@ -70,7 +66,7 @@ include("conf.php");
                 <div id="frontpage_icons" class="icons">
                     <div class="hline"><a href="">Realizētie projekti</a></div>
                     <div class="icon_wrap">
-                        <thumbnail v-for="(article, index) in data.frontPageArticles" :imageid="article.imageID" :title="article.title" :key="index"></thumbnail>
+                        <thumbnail v-for="(article, index) in data.frontPageArticles" :article="article" :key="index"></thumbnail>
                     </div>
                 </div>
             </div>
@@ -93,7 +89,7 @@ include("conf.php");
 
 </div>
 <script type="text/x-template" id="thumbnail-template">
-    <div class="image_icon_container" style="opacity: 1;">
+    <div class="image_icon_container" v-on:click="open()">
         <div>
             <img :src="imageSrc">
             <div class="image_icon_container_overlay" style="opacity: 0;">
@@ -101,7 +97,7 @@ include("conf.php");
                 <img src="img/cross.png" style="top: 150px;">
             </div>
         </div>
-        <p>{{title}}</p>
+        <p>{{article.title}}</p>
     </div>
 </script>
 <script src="js/thumbnail.vue.js"></script>

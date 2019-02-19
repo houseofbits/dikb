@@ -1,15 +1,18 @@
 
 Vue.component('thumbnail', {
-    props: ['imageid', 'title'],
+    props: ['article'],
     template:'#thumbnail-template',
     data: function () {
-        return {
-            count: 0
-        }
+        return {}
     },
     computed:{
         imageSrc:function() {
-            return '/image/'+this.imageid+'/1';
+            return '/image/'+this.article.imageID+'/1';
+        }
+    },
+    methods: {
+        open:function () {
+            this.$parent.showArticle(this.article.id);
         }
     }
 })
