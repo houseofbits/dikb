@@ -1,7 +1,7 @@
 <?php
 include("dikb_sql.php");
 
-include("../conf.php");
+include("../../config.php");
 
 $db = new DIKB_SQL($conf['sql_host'], $conf['sql_user'], $conf['sql_password'], $conf['sql_db']);
 

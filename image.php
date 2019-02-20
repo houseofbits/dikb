@@ -1,5 +1,5 @@
 <?php
-include("conf.php");
+include("../config.php");
 
 if(!empty($_GET['i']) && is_numeric($_GET['i'])){
     $filePath = rtrim($conf['uploads_dir'], '/') . '/' . intval($_GET['i']);

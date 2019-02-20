@@ -1,5 +1,5 @@
-<?php 
-include("conf.php");
+<?php
+include("../config.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,59 +25,20 @@ include("conf.php");
         <img src="img/logo.png" width="122" height="131" v-on:click="showMain()"/>
         <p>Telefona nr. +371 29648203</p>
         <p>Epasts: dikb@dikb.lv</p>
-        <!--ul id="main_menu">
-            <li v-on:click="loadContacts" :class="{selected:(selectedPage=='contacts')}">Kontakti</li>
-            <li v-on:click="loadServices" :class="{selected:(selectedPage=='services')}">Pakalpojumi</li>
-            <li v-on:click="loadPortfolio" :class="{selected:(selectedPage=='portfolio')}">Portfolio</li>
-            <li v-on:click="loadMain" :class="{selected:(selectedPage=='main')}">Sākums</li>
-        </ul-->
+        <ul id="main_menu">
+            <li :class="{selected:(selectedPage=='contacts')}">Kontakti</li>
+            <li :class="{selected:(selectedPage=='services')}">Pakalpojumi</li>
+            <li v-on:click="showArticle" :class="{selected:(selectedPage=='article')}">Portfolio</li>
+            <li v-on:click="showMain" :class="{selected:(selectedPage=='main')}">Sākums</li>
+        </ul>
     </div>
 
     <div id="content">
-        <div id="active_content" :class="{faded:!loading}">
 
-            <div v-show="isMain">
-                <div id="intro">
-                    <div>
-                        <div class="dark_image_title">Interjera noformējums</div>
+        <?php include 'views/main.php'?>
 
-                        <ul class="dots">
-                            <li class="arrow l"></li>
-                            <li class="arrow r"></li>
-                        </ul>
-                        <div id="slide_container">
-                            <div id="slide_container_move">
-                                <img class="first" src="" width="520px"/>
-                                <img class="second" src="" width="520px"/>
-                            </div>
-                        </div>
+        <?php include 'views/article.php'?>
 
-                    </div>
-
-                    <div>Dizaina un Interjera Konsultāciju<br /> Birojs</div>
-                    <div>
-                        Arhitektūras pakalpojumi<br>
-                        Specializētie projektēšanas darbi<br>
-                        Interjera dizains<br>
-                        Mēbeļu projektēšana<br>
-                        Muzeju ekspozīcijas<br>
-                    </div>
-                </div>
-                <div id="frontpage_icons" class="icons">
-                    <div class="hline"><a href="">Realizētie projekti</a></div>
-                    <div class="icon_wrap">
-                        <thumbnail v-for="(article, index) in data.frontPageArticles" :article="article" :key="index"></thumbnail>
-                    </div>
-                </div>
-            </div>
-
-
-
-
-
-
-
-        </div>
     </div>
     <div id="footer">
         <p>SIA "DIZAINA UN INTERJERA KONSULTĀCIJU BIROJS"</p>

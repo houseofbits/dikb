@@ -83,26 +83,11 @@ body>div:nth-child(2){
     overflow: hidden;
     height:503px;
 }
-
-#active_content{
-    float:left;
+.active_content{
+    position: absolute;
     border:none 1px #000;
     width:100%;
     height:auto;
-
-    opacity: 0;
-    -webkit-transition:opacity .4s ease-in;
-    -moz-transition:opacity .4s ease-in;
-    -o-transition:opacity .4s ease-in;
-    transition:opacity .4s ease-in;
-
-}
-#active_content.faded{
-    opacity: 1;
-    -webkit-transition:opacity .4s ease-in;
-    -moz-transition:opacity .4s ease-in;
-    -o-transition:opacity .4s ease-in;
-    transition:opacity .4s ease-in;
 }
 
 #main_menu{
@@ -463,4 +448,12 @@ div.item_container>div:nth-child(2){
    line-height:13px;
    overflow:hidden;
    letter-spacing:0.1em;    
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+
 }
