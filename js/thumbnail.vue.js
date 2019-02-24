@@ -12,7 +12,7 @@ Vue.component('thumbnail', {
     },
     methods: {
         open:function () {
-            this.$parent.showArticle(this.article.id);
+            this.$parent.showArticle(this.article);
         }
     }
 })

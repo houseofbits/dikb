@@ -3,8 +3,9 @@ var app = new Vue({
     data: {
         articles:[],
         categories:[],
+        allImages:[],
         selectedCategoryId:'',
-        deleteCategoryObj:'',
+        editCategoryObj:'',
         newCategoryName:'',
         articleData:{
             id:0,
@@ -16,6 +17,33 @@ var app = new Vue({
         imageError:null,
     },
     methods: {
+        selectSliderImage:function(imageId){
+            for(var i=0; i<this.allImages.length; i++){
+                if(this.allImages[i].id == imageId){
+                    if(this.allImages[i].slider > 0){
+                        this.allImages[i].slider = 0;
+                    }else{
+                        this.allImages[i].slider = 1000;
+                    }
+                    this.renumberSliderImages();
+                    return;
+                }
+            }
+        },
+        renumberSliderImages:function () {
+            var idsToNum = [];
+            for(var i=0; i<this.allImages.length; i++) {
+                if (this.allImages[i].slider > 0) {
+                    idsToNum.push(this.allImages[i]);
+                }
+            }
+            idsToNum.sort(function (a,b) {
+                return a.slider - b.slider;
+            });
+            for(i=0; i<idsToNum.length; i++){
+                idsToNum[i].slider = (i+1);
+            }
+        },
         deleteImage:function (imageId) {
             var formData = new FormData();
             formData.append('imageId', imageId);
@@ -37,7 +65,10 @@ var app = new Vue({
 
             var formData = new FormData();
             formData.append('articleId', this.articleData.id);
-            formData.append('fileData', files[0]);
+            for(var i=0; i<files.length; i++){
+                formData.append('fileData'+i, files[i]);
+            }
+//            formData.append('fileData', files[0]);
             this.$http.post('api.php?upload',formData).then(function(response) {
                 if(typeof response.body.imageId != 'undefined'){
                     this.getImages(this.articleData.id);
@@ -92,6 +123,11 @@ var app = new Vue({
                 this.categories = response.body;
             }, function(){});
         },
+        getAllImages:function () {
+            this.$http.get('api.php?allImages').then(function(response) {
+                this.allImages = response.body;
+            }, function(){});
+        },
         addCategory:function (name) {
             var formData = new FormData();
             formData.append('name', name);
@@ -106,6 +142,25 @@ var app = new Vue({
                 this.categories = response.body;
             }, function(){});
         },
+        updateCategory:function () {
+            var formData = new FormData();
+            formData.append('id', this.editCategoryObj.id);
+            formData.append('name', this.editCategoryObj.title);
+            if(this.editCategoryObj){
+                this.$http.post('api.php?renameCat',formData).then(function(response) {
+                    this.categories = response.body;
+                }, function(){});
+            }
+        },
+        updateSliderImages:function () {
+            var formData = new FormData();
+            for(var i=0;i<this.allImages.length; i++){
+                formData.append("images["+i+"][id]",this.allImages[i].id );
+                formData.append("images["+i+"][slider]",this.allImages[i].slider);
+            }
+            this.$http.post('api.php?updateSliderImages', formData).then(function(response) {
+            }, function(){});
+        }
     },
     mounted:function () {
         var parent = this;
@@ -124,9 +179,13 @@ var app = new Vue({
         $('#categoriesModal').on('show.bs.modal',function () {
             parent.getCategories();
         });
+        $('#sliderImagesModal').on('show.bs.modal',function () {
+            parent.getAllImages();
+        });
         $('#addCategorieModal').on('show.bs.modal',function () {
             parent.newCategoryName = '';
         });
         this.getArticles('');
+        this.getCategories();
     }
 })

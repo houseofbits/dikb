@@ -8,6 +8,9 @@ $db = new DIKB_SQL($conf['sql_host'], $conf['sql_user'], $conf['sql_password'], 
 if(isset($_GET['categories'])){
     echo json_encode($db->GetCategories());
 }
+if(isset($_GET['allImages'])){
+    echo json_encode($db->GetAllImages());
+}
 if(isset($_GET['articles'])){
     $catid = -1;
     if(!empty($_GET['articles']))$catid = $_GET['articles'];
@@ -27,9 +30,18 @@ if(isset($_GET['addCat']) && !empty($_POST['name'])){
     $db->CreateCategory($_POST['name']);
     echo json_encode($db->GetCategories());
 }
+if(isset($_GET['renameCat']) && !empty($_POST['id'])){
+    $db->RenameCategory($_POST['name'],$_POST['id']);
+    echo json_encode($db->GetCategories());
+}
 if(isset($_GET['deleteCat']) && !empty($_POST['id'])){
     $db->DeleteCategory($_POST['id']);
     echo json_encode($db->GetCategories());
+}
+if(isset($_GET['updateSliderImages']) && !empty($_POST['images'])){
+    foreach ($_POST['images'] as $image){
+        $db->SetImageOptionSlider($image['id'], $image['slider']);
+    }
 }
 if(isset($_GET['save'])){
     $id = null;
@@ -58,117 +70,128 @@ if(isset($_GET['upload']) && !empty($_FILES)){
         8 => 'A PHP extension stopped the file upload.',
     );
 
-    $tempFile = $_FILES['fileData']['tmp_name'];
-    $targetPath = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . $conf['uploads_dir'];
-    $targetFile = rtrim($targetPath, '/') . '/';
-    $fileTypes = array('jpg', 'jpeg', 'gif', 'png'); // File extensions
-    $fileParts = pathinfo($_FILES['fileData']['name']);
+    $return_data = [];
 
-    if(!empty($_FILES['fileData']['error'])){
+    foreach ($_FILES as $fileData) {
+        $tempFile = $fileData['tmp_name'];
+        $targetPath = rtrim($_SERVER['DOCUMENT_ROOT'], '/') . '/' . $conf['uploads_dir'];
+        $targetFile = rtrim($targetPath, '/') . '/';
+        $fileTypes = array('jpg', 'jpeg', 'gif', 'png'); // File extensions
+        $fileParts = pathinfo($fileData['name']);
 
-        if(isset($phpFileUploadErrors[$_FILES['fileData']['error']]))
-            $return_data['error'] = 'Attēla augšuplādes neizdevās: "'.$phpFileUploadErrors[$_FILES['fileData']['error']].'"';
-        else
-            $return_data['error'] = 'Attēla augšuplādes neizdevās';
+        if (!empty($fileData['error'])) {
 
-    }else if (in_array(strtolower($fileParts['extension']),$fileTypes)) {
+            if (isset($phpFileUploadErrors[$fileData['error']]))
+                $return_data['error'] = $fileData['name'].' Attēla augšuplādes neizdevās: "' . $phpFileUploadErrors[$fileData['error']] . '"';
+            else
+                $return_data['error'] = $fileData['name'].' Attēla augšuplādes neizdevās';
 
-        $return_data = [];
+        } else if (in_array(strtolower($fileParts['extension']), $fileTypes)) {
 
-        $id = $db->CreateImage($_POST['articleId']);
+            $return_data = [];
 
-        $gis = getimagesize($tempFile);
-        $type = $gis[2];
+            $id = $db->CreateImage($_POST['articleId']);
 
-        switch($type){
-            case "1": $imorig = imagecreatefromgif($tempFile); break;
-            case "2": $imorig = imagecreatefromjpeg($tempFile);break;
-            case "3": $imorig = imagecreatefrompng($tempFile); break;
-            default:  $imorig = imagecreatefromjpeg($tempFile);
-        }
-        $aw = imagesx($imorig);
-        $ah = imagesy($imorig);
+            $gis = getimagesize($tempFile);
+            $type = $gis[2];
 
-        $dstw = 182;
-        $dsth = 124;
+            switch ($type) {
+                case "1":
+                    $imorig = imagecreatefromgif($tempFile);
+                    break;
+                case "2":
+                    $imorig = imagecreatefromjpeg($tempFile);
+                    break;
+                case "3":
+                    $imorig = imagecreatefrompng($tempFile);
+                    break;
+                default:
+                    $imorig = imagecreatefromjpeg($tempFile);
+            }
+            $aw = imagesx($imorig);
+            $ah = imagesy($imorig);
 
-        $dstaspect = $dstw / $dsth;
-        $aspect = $aw / $ah;
+            $dstw = 182;
+            $dsth = 124;
 
-        $croppedw = $aw;
-        $croppedh = $ah;
+            $dstaspect = $dstw / $dsth;
+            $aspect = $aw / $ah;
 
-        $offsetx = 0;
-        $offsety = 0;
-
-        if($dstaspect > $aspect){
             $croppedw = $aw;
-            $croppedh = $croppedw / $dstaspect;
-            $offsety = ($ah-$croppedh)/2;
-        }else{
             $croppedh = $ah;
-            $croppedw = $croppedh * $dstaspect;
-            $offsetx = ($aw-$croppedw)/2;
-        }
 
-        $imicon = imagecreatetruecolor($dstw,$dsth);
+            $offsetx = 0;
+            $offsety = 0;
 
-        //save icon image
-        if (imagecopyresampled($imicon,$imorig,0,0,$offsetx,$offsety,$dstw,$dsth,$croppedw,$croppedh)){
-            if (!imagejpeg($imicon, $targetFile.$id.'_icon.jpeg')){
+            if ($dstaspect > $aspect) {
+                $croppedw = $aw;
+                $croppedh = $croppedw / $dstaspect;
+                $offsety = ($ah - $croppedh) / 2;
+            } else {
+                $croppedh = $ah;
+                $croppedw = $croppedh * $dstaspect;
+                $offsetx = ($aw - $croppedw) / 2;
+            }
+
+            $imicon = imagecreatetruecolor($dstw, $dsth);
+
+            //save icon image
+            if (imagecopyresampled($imicon, $imorig, 0, 0, $offsetx, $offsety, $dstw, $dsth, $croppedw, $croppedh)) {
+                if (!imagejpeg($imicon, $targetFile . $id . '_icon.jpeg')) {
+                    @imagedestroy($imicon);
+                    $return_data['error'] = $fileData['name'].' Failed to save icon image file!';
+                }
+            } else {
                 @imagedestroy($imicon);
-                $return_data['error'] = 'Failed to save icon image file!';
+                $return_data['error'] = $fileData['name'].' Failed to copy resampled icon image!';
             }
-        }else{
-            @imagedestroy($imicon);
-            $return_data['error'] = 'Failed to copy resampled icon image!';
-        }
-        imagedestroy($imicon);
+            imagedestroy($imicon);
 
-        $dstw = 800;
-        $dsth = 450;
+            $dstw = 800;
+            $dsth = 450;
 
-        $dstaspect = $dstw / $dsth;
-        $aspect = $aw / $ah;
+            $dstaspect = $dstw / $dsth;
+            $aspect = $aw / $ah;
 
-        $croppedw = $aw;
-        $croppedh = $ah;
-
-        $offsetx = 0;
-        $offsety = 0;
-
-        if($aw < $dstw || $ah < $dsth){
-            $return_data['error'] = 'Uploaded image is too small. Minumum required size is 800 x 600 px';
-        }
-
-        if($dstaspect > $aspect){
             $croppedw = $aw;
-            $croppedh = $croppedw / $dstaspect;
-            $offsety = ($ah-$croppedh)/2;
-        }else{
             $croppedh = $ah;
-            $croppedw = $croppedh * $dstaspect;
-            $offsetx = ($aw-$croppedw)/2;
-        }
 
-        $im = imagecreatetruecolor($dstw,$dsth);
+            $offsetx = 0;
+            $offsety = 0;
 
-        $return_data['dbg'] = $targetFile.$id.'.jpeg';
-
-        if (imagecopyresampled($im,$imorig,0,0,$offsetx,$offsety,$dstw,$dsth,$croppedw,$croppedh)){
-            if (imagejpeg($im, $targetFile.$id.'.jpeg')){
-                $return_data['imageId'] = $id;
-            }else{
-                @imagedestroy($im);
-                $return_data['error'] = 'Failed to save image file!';
+            if ($aw < $dstw || $ah < $dsth) {
+                $return_data['error'] = $fileData['name'].' Uploaded image is too small. Minumum required size is 800 x 600 px';
             }
-        }else{
+
+            if ($dstaspect > $aspect) {
+                $croppedw = $aw;
+                $croppedh = $croppedw / $dstaspect;
+                $offsety = ($ah - $croppedh) / 2;
+            } else {
+                $croppedh = $ah;
+                $croppedw = $croppedh * $dstaspect;
+                $offsetx = ($aw - $croppedw) / 2;
+            }
+
+            $im = imagecreatetruecolor($dstw, $dsth);
+
+            $return_data['dbg'] = $targetFile . $id . '.jpeg';
+
+            if (imagecopyresampled($im, $imorig, 0, 0, $offsetx, $offsety, $dstw, $dsth, $croppedw, $croppedh)) {
+                if (imagejpeg($im, $targetFile . $id . '.jpeg')) {
+                    $return_data['imageId'] = $id;
+                } else {
+                    @imagedestroy($im);
+                    $return_data['error'] = $fileData['name'].' Failed to save image file!';
+                }
+            } else {
+                @imagedestroy($im);
+                $return_data['error'] = $fileData['name'].' Failed to copy resampled image!';
+            }
             @imagedestroy($im);
-            $return_data['error'] = 'Failed to copy resampled image!';
+        } else {
+            $return_data['error'] = $fileData['name'].' Invalid file format. Supported file types are .jpg .jpeg .gif .png';
         }
-        @imagedestroy($im);
-    } else {
-        $return_data['error'] = 'Invalid file format. Supported file types are .jpg .jpeg .gif .png';
     }
     echo json_encode($return_data);
 }

@@ -4,9 +4,11 @@ var app = new Vue({
         show:true,
 
         selectedPage:null,
-        selectedArticle:null,
+        selectedArticleData:null,
         data:{
             frontPageArticles:[],
+            portfolioOverview:[],
+            fullCategories:[],
         },
         loading:true,
     },
@@ -16,6 +18,20 @@ var app = new Vue({
         },
         isArticle:function() {
             return this.selectedPage == 'article';
+        },
+        isPortfolio:function() {
+            return this.selectedPage == 'portfolio';
+        },
+        frontpageSliderImages:function () {
+            var images = [];
+            for(var i=0; i<this.data.frontPageArticles.length; i++){
+                images.push({
+                    'imageID':this.data.frontPageArticles[i].imageID,
+                    'id':this.data.frontPageArticles[i].id,
+                    'first':false
+                });
+            }
+            return images;
         }
     },
     methods: {
@@ -23,11 +39,13 @@ var app = new Vue({
             this.selectedPage = 'main';
             this.getPageData();
         },
-        showArticle:function (id) {
+        showPortfolio:function () {
+            this.selectedPage = 'portfolio';
+        },
+        showArticle:function (article) {
             this.loading = true;
             this.selectedPage = 'article';
-            this.selectedArticle = id;
-            this.getPageData();
+            this.selectedArticleData = article;
         },
         getPageData:function () {
             this.loading = true;
@@ -38,51 +56,28 @@ var app = new Vue({
         },
 
 
-        // --------
-        // ENTERING
-        // --------
-
         beforeEnter: function (el) {
-         //   console.log('before enter');
+            el.style.opacity = 0
         },
-        // the done callback is optional when
-        // used in combination with CSS
         enter: function (el, done) {
-        //    console.log('enter');
-         //   console.log(el);
-            //done();
-        },
-        afterEnter: function (el) {
-         //   console.log('after enter');
-        },
-        enterCancelled: function (el) {
-        //    console.log('enter cancelled');
-        },
 
-        // --------
-        // LEAVING
-        // --------
+            Velocity(el, { opacity: 1,
+               // maxHeight: -el.offsetHeight
+            }, { duration: 300, complete: done })
 
-        beforeLeave: function (el) {
-        //    console.log('before leave');
+            //console.log(getComputedStyle(el).height);
         },
-        // the done callback is optional when
-        // used in combination with CSS
         leave: function (el, done) {
-         //   console.log('leave');
-            //done();
-        },
-        afterLeave: function (el) {
-         //   console.log('after enter');
-        },
-        // leaveCancelled only available with v-show
-        leaveCancelled: function (el) {
-        //    console.log('leave cancelled');
+
+            Velocity(el, { opacity: 0,
+             //   maxHeight: -el.offsetHeight
+            }, { duration: 300, complete: done })
         }
 
     },
     mounted:function () {
         var parent = this;
+        this.getPageData();
         this.showMain();
     }
 });
