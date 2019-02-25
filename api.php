@@ -10,6 +10,7 @@ $data = [
     'frontPageArticles' => $db->GetFrontPageArticles(),
     'portfolioOverview' => $db->GetPortfolioArticles(),
     'fullCategories' => [],
+    'sliderImages' => $db->GetSliderData(),
 ];
 
 echo json_encode($data);

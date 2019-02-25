@@ -133,6 +133,8 @@ a{
     margin-top:16px;
     padding-top: 18px;
     padding-bottom: 18px;
+
+    mix-blend-mode: darken;
 }
 #footer>p:first-child{
 
@@ -147,12 +149,16 @@ a{
     font-size: 14px;
     line-height: 12px;
     letter-spacing: 0.05em;
+
+    color:lightgray;
 }
 
 .article-description{
     width:auto;
     margin-left:18px;
     margin-right:18px;
+    font-size: 14px;
+    letter-spacing: 0.05em;
 }
 /*********************** intro *************************/
 #intro{
@@ -172,7 +178,7 @@ a{
    border:none 1px #000;
    width:auto;
    font-size:24px;
-   line-height:20px;
+   line-height:22px;
    letter-spacing:1px;
 }
 .intro-description{
@@ -181,7 +187,7 @@ a{
    border:none 1px #000;
    width:auto;
    font-size:14px;
-   line-height:14px;
+   line-height:16px;
    overflow:hidden;
    letter-spacing:0.1em;
 }
@@ -324,6 +330,8 @@ div.icons{
     padding-left:7px;
     padding-right:7px;
     display: inline;
+    font-size: 14px;
+    letter-spacing: 0.05em;
 }
 
 div.icon-container{
@@ -400,6 +408,7 @@ div.item_container>div:nth-child(2){
 .link-button{
     color:#000;
     cursor:pointer;
+    letter-spacing: 0.05em;
 }
 .link-button:hover{
     color:#6A7D87;

@@ -11,7 +11,7 @@ Vue.component('slider', {
     },
     methods: {
         imageSrc:function (image) {
-            return '/image/'+image.imageID;
+            return '/image/'+image.id;
         }
     }
 })

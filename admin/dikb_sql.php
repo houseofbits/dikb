@@ -25,10 +25,10 @@ class DIKB_SQL extends mysqli {
 				LIMIT 0 , 8;")){
 				$array = array();		
 				while($obj = $result->fetch_array(MYSQLI_ASSOC)){
-					array_push($array, array('imageID'=>$obj['imageID'],
+					array_push($array, ['id'=>$obj['imageID'],
 											'catID'=>$obj['catid'], 
 											'category'=>$obj['category'], 
-											'articleid'=>$obj['articleid']));
+											'articleid'=>$obj['articleid']]);
 				}
 				$result->close();
 				return $array;		
@@ -309,7 +309,10 @@ class DIKB_SQL extends mysqli {
 	public function GetImages($article_id){
 		$stat = array();
 		if (settype($article_id, 'integer') 
-		&& $result = $this->query("SELECT * FROM images WHERE articleid='$article_id';")){
+		&& $result = $this->query("SELECT i.*, c.id as catId FROM images i
+                                            LEFT JOIN articles a ON a.id=i.articleid
+                                            LEFT JOIN category c on c.id=a.category
+                                            WHERE i.articleid='$article_id';")){
 
 //			while($obj = $result->fetch_array(MYSQLI_ASSOC)){
 //				array_push($stat, array('id'=>$obj['id'],
@@ -326,7 +329,9 @@ class DIKB_SQL extends mysqli {
     public function GetAllImages(){
         $stat = [];
         if (settype($article_id, 'integer')
-            && $result = $this->query("SELECT * FROM images ORDER BY id ASC;")){
+            && $result = $this->query("SELECT i.*, c.id as catId FROM images i
+                                            LEFT JOIN articles a ON a.id=i.articleid
+                                            LEFT JOIN category c on c.id=a.category ORDER BY c.id ASC;")){
             $stat = $result->fetch_all(MYSQLI_ASSOC);
             $result->close();
             return $stat;

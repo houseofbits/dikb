@@ -24,11 +24,9 @@ include("../config.php");
 <div id="mainApp" v-cloak>
     <div id="header">
         <img src="img/logo.png" width="122" height="131" v-on:click="showMain()"/>
-        <p>Telefona nr. +371 29648203</p>
-        <p>Epasts: dikb@dikb.lv</p>
         <ul id="main_menu">
             <li :class="{selected:(selectedPage=='contacts')}">Kontakti</li>
-            <li :class="{selected:(selectedPage=='services')}">Pakalpojumi</li>
+            <!--li :class="{selected:(selectedPage=='services')}">Pakalpojumi</li-->
             <li v-on:click="showPortfolio" :class="{selected:(selectedPage=='portfolio'||selectedPage=='article')}">Portfolio</li>
             <li v-on:click="showMain" :class="{selected:(selectedPage=='main')}">Sākums</li>
         </ul>

@@ -4,6 +4,7 @@ var app = new Vue({
         articles:[],
         categories:[],
         allImages:[],
+        allArticles:[],
         selectedCategoryId:'',
         editCategoryObj:'',
         newCategoryName:'',
@@ -15,6 +16,48 @@ var app = new Vue({
             images:[],
         },
         imageError:null,
+        sliderModalSelectedCategory:0,
+        sliderModalSelectedArticle:0,
+        sliderModalSelectedImages:0,
+    },
+    computed:{
+        sliderModalSelectedArticles:function () {
+            if(this.sliderModalSelectedCategory != 0){
+                var art = [];
+                for(i in this.allArticles){
+                    if(this.allArticles[i].catid == this.sliderModalSelectedCategory){
+                        art.push(this.allArticles[i]);
+                    }
+                }
+                return art;
+            }
+            return this.allArticles;
+        },
+        sliderModalFilteredImages:function () {
+            if(this.sliderModalSelectedImages){
+                var images = [];
+                for(i in this.allImages){
+                    if(this.allImages[i].slider > 0){
+                        images.push(this.allImages[i]);
+                    }
+                }
+                return images;
+            }else if(this.sliderModalSelectedCategory!=0 || this.sliderModalSelectedArticle!=0){
+                var images = [];
+                for(i in this.allImages){
+                    if(this.sliderModalSelectedArticle != 0
+                        && this.allImages[i].articleid == this.sliderModalSelectedArticle){
+                        images.push(this.allImages[i]);
+                    }else if(this.sliderModalSelectedArticle == 0
+                        && this.sliderModalSelectedCategory != 0
+                        && this.allImages[i].catId == this.sliderModalSelectedCategory){
+                        images.push(this.allImages[i]);
+                    }
+                }
+                return images;
+            }
+            return this.allImages;
+        }
     },
     methods: {
         selectSliderImage:function(imageId){
@@ -118,6 +161,13 @@ var app = new Vue({
                 this.articles = response.body;
             }, function(){});
         },
+        getAllArticles: function () {
+            this.selectedCategoryId = '';
+            this.$http.get('api.php?articles='+this.selectedCategoryId).then(function(response) {
+                this.allArticles = response.body;
+                this.articles = this.allArticles;
+            }, function(){});
+        },
         getCategories: function () {
             this.$http.get('api.php?categories').then(function(response) {
                 this.categories = response.body;
@@ -162,6 +212,11 @@ var app = new Vue({
             }, function(){});
         }
     },
+    watch:{
+        'sliderModalSelectedCategory':function () {
+            this.sliderModalSelectedArticle = 0;
+        },
+    },
     mounted:function () {
         var parent = this;
         $('#articleModal').on('show.bs.modal',function () {
@@ -185,7 +240,7 @@ var app = new Vue({
         $('#addCategorieModal').on('show.bs.modal',function () {
             parent.newCategoryName = '';
         });
-        this.getArticles('');
+        this.getAllArticles();
         this.getCategories();
     }
 })

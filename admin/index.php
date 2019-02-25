@@ -171,7 +171,7 @@
                                 <div class="card-body bg-light">
                                     <div class="form-group">
                                         <label>Kategorija:</label>
-                                        <select v-model="articleData.catid" name="cars" class="custom-select">
+                                        <select v-model="articleData.catid" class="custom-select">
                                             <option v-for="cat in categories" :value="cat.id">{{cat.title}}</option>
                                         </select>
                                     </div>
@@ -242,9 +242,37 @@
                 </div>
                 <div class="modal-body">
 
+                    <div class="form-group">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="switch2" v-model="sliderModalSelectedImages">
+                            <label class="custom-control-label" for="switch2">Rādīt izvēlētos attēlus</label>
+                        </div>
+                    </div>
+
+                    <div class="row" v-if="!sliderModalSelectedImages">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Kategorija:</label>
+                                <select v-model="sliderModalSelectedCategory" class="custom-select">
+                                    <option value="0">Visas kategorijas</option>
+                                    <option v-for="cat in categories" :value="cat.id">{{cat.title}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Raksti:</label>
+                                <select v-model="sliderModalSelectedArticle" class="custom-select">
+                                    <option value="0">Visi raksti</option>
+                                    <option v-for="art in sliderModalSelectedArticles" :value="art.id">{{art.title}}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="card-columns">
                         <div class="card bg-success cursor-pointer"
-                             v-for="image in allImages"
+                             v-for="image in sliderModalFilteredImages"
                              :class="{'slider-image-active':(image.slider>0)}"
                                 v-on:click="selectSliderImage(image.id)">
 

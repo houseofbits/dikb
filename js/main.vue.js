@@ -9,6 +9,7 @@ var app = new Vue({
             frontPageArticles:[],
             portfolioOverview:[],
             fullCategories:[],
+            sliderImages:[],
         },
         loading:true,
     },
@@ -22,20 +23,10 @@ var app = new Vue({
         isPortfolio:function() {
             return this.selectedPage == 'portfolio';
         },
-        frontpageSliderImages:function () {
-            var images = [];
-            for(var i=0; i<this.data.frontPageArticles.length; i++){
-                images.push({
-                    'imageID':this.data.frontPageArticles[i].imageID,
-                    'id':this.data.frontPageArticles[i].id,
-                    'first':false
-                });
-            }
-            return images;
-        }
     },
     methods: {
         showMain:function () {
+            if(this.selectedPage == 'main')return;
             this.selectedPage = 'main';
             this.getPageData();
         },
@@ -57,21 +48,21 @@ var app = new Vue({
 
 
         beforeEnter: function (el) {
-            el.style.opacity = 0
+            el.style.opacity = 0.1
         },
         enter: function (el, done) {
 
             Velocity(el, { opacity: 1,
                // maxHeight: -el.offsetHeight
-            }, { duration: 300, complete: done })
+            }, { duration: 200, complete: done })
 
             //console.log(getComputedStyle(el).height);
         },
         leave: function (el, done) {
 
-            Velocity(el, { opacity: 0,
+            Velocity(el, { opacity: 0.1,
              //   maxHeight: -el.offsetHeight
-            }, { duration: 300, complete: done })
+            }, { duration: 200, complete: done })
         }
 
     },

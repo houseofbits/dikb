@@ -20,9 +20,7 @@
 
 <div class="content-block-wide">
     <div class="header-line mt-10">
-        <div class="header">
-            <a class="link-button">Realizētie projekti</a>
-        </div>
+
     </div>
     <div class="icons mt-10">
         <thumbnail v-for="(article, index) in data.frontPageArticles" :article="article" :key="index"></thumbnail>
