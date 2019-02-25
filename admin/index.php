@@ -30,7 +30,7 @@
     </nav>
 
     <div class="m-3">
-        <a href="#" class="btn" :class="{'btn-primary':!selectedCategoryId, 'btn-info':selectedCategoryId}" v-on:click="getArticles('')">Visas</a>
+        <a href="#" class="btn" :class="{'btn-primary':!selectedCategoryId, 'btn-info':selectedCategoryId}" v-on:click="getArticles('')">Visas kategorijas</a>
         <a href="#" v-for="category in categories" v-if="category.numArticles>0" class="btn ml-2" :class="{'btn-primary':(selectedCategoryId==category.id), 'btn-info':(selectedCategoryId!=category.id)}" v-on:click="getArticles(category.id)">
             {{category.title}} <span class="badge badge-light">{{category.numArticles}}</span>
         </a>

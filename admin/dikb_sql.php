@@ -12,6 +12,17 @@ class DIKB_SQL extends mysqli {
             die('set_charset failed');
         }		
     }
+
+    function fetchAll($result){
+        $data = [];
+        if($result) {
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+            $result->free();
+        }
+        return $data;
+    }
 	//////////////////////////////////////////////////////////////////////////////////
 	//interface	
 	
@@ -100,11 +111,11 @@ class DIKB_SQL extends mysqli {
 				LIMIT 0,4;
 				
 				")){
-			$articles = $result->fetch_all(MYSQLI_ASSOC);
+			$articles = $this->fetchAll($result);//->fetch_all(MYSQLI_ASSOC);
             foreach ($articles as &$article){
                 $article['images'] = $this->GetImages($article['id']);
             }
-			$result->close();
+			//$result->close();
 			return $articles;
 		}			
 		
@@ -118,7 +129,7 @@ class DIKB_SQL extends mysqli {
                                             LEFT JOIN articles a ON a.category=c.id                                            
                                             GROUP by c.id
                                             HAVING count(a.id) > 0;")) {
-            $categories = $result->fetch_all(MYSQLI_ASSOC);
+            $categories = $this->fetchAll($result);//$result->fetch_all(MYSQLI_ASSOC);
 
             foreach ($categories as $k => $cat){
                 $result = $this->query("
@@ -144,12 +155,12 @@ class DIKB_SQL extends mysqli {
 				ORDER BY RAND()
 				LIMIT 0,4;");
 
-                $categories[$k]['articles'] = $result->fetch_all(MYSQLI_ASSOC);
+                $categories[$k]['articles'] = $this->fetchAll($result); //$result->fetch_all(MYSQLI_ASSOC);
                 foreach ($categories[$k]['articles'] as &$article){
                     $article['images'] = $this->GetImages($article['id']);
                 }
             }
-            $result->close();
+            //$result->close();
             return $categories;
         }
         return false;
@@ -320,8 +331,8 @@ class DIKB_SQL extends mysqli {
 //										'first'=>$obj['first']));
 //			}
 
-            $stat = $result->fetch_all(MYSQLI_ASSOC);
-			$result->close();
+            $stat = $this->fetchAll($result);//$result->fetch_all(MYSQLI_ASSOC);
+			//$result->close();
 			return $stat;	
 		}
 		return 0;				
@@ -332,8 +343,8 @@ class DIKB_SQL extends mysqli {
             && $result = $this->query("SELECT i.*, c.id as catId FROM images i
                                             LEFT JOIN articles a ON a.id=i.articleid
                                             LEFT JOIN category c on c.id=a.category ORDER BY c.id ASC;")){
-            $stat = $result->fetch_all(MYSQLI_ASSOC);
-            $result->close();
+            $stat = $this->fetchAll($result);//$result->fetch_all(MYSQLI_ASSOC);
+            //$result->close();
             return $stat;
         }
         return 0;
