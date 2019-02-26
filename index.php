@@ -70,6 +70,7 @@ include("../config.php");
     </div>
     <div id="footer">
         <p>SIA "DIZAINA UN INTERJERA KONSULTĀCIJU BIROJS"</p>
+        <!--img src="img/icons8-licence-100.svg"-->
         <p>:: LV 40003396980</p>
         <p>:: Inčukalna nov., Inčukalna pag., Inčukalns, "Mākoņi", LV-2141</p>
         <p>:: Telefona nr. +371 29648203</p>
