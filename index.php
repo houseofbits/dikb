@@ -20,6 +20,7 @@ include("../config.php");
     <link rel="stylesheet" href="<?=BASE_URL;?>/css/style.css" type="text/css" />
 </head>
 <body>
+<div id="bg1"></div>
 <div id="bg"></div>
 <div id="mainApp" v-cloak>
     <div id="header">

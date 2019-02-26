@@ -19,12 +19,34 @@ body{
    -moz-user-select: none;
    -o-user-select: none;
    user-select: none;
-   */
+
     background:url(../img/bg1.jpg);
     background-size:100% 100%;
     background-repeat:no-repeat;
     background-attachment: fixed;
     background-color:#959394;
+    */
+}
+
+#bg1{
+    position:fixed;
+    left:0px;
+    right:0px;
+    top:0px;
+    bottom:0px;
+    background:url(../img/bg1.jpg);
+    background-repeat:no-repeat;
+
+    -webkit-background-size: 100%;
+    -moz-background-size: 100%;
+    -o-background-size: 100%;
+    background-size: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    z-index: -10;
 }
 #bg{
     position:fixed;
@@ -33,6 +55,7 @@ body{
     top:0px;
     bottom:0px;
     background:url(../img/bg_mask.png);
+    z-index: -9;
 }
 
 a{
