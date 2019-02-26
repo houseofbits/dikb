@@ -79,7 +79,7 @@ include("../config.php");
 </div>
 <script type="text/x-template" id="thumbnail-template">
     <div class="icon-container cursor-pointer" v-on:click="open()">
-        <img :src="imageSrc">
+        <preload-image :id="imageId" thumbnail="1"></preload-image>
         <p class="link-button">{{article.title}}</p>
     </div>
 </script>
@@ -91,11 +91,12 @@ include("../config.php");
             <li class="arrow r"></li>
         </ul>
         <div id="slide-container">
-            <img v-for="image in images" :src="imageSrc(image)">
+            <preload-image v-for="image in images" :id="image.id"></preload-image>
         </div>
     </div>
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
+<script src="js/image.vue.js"></script>
 <script src="js/thumbnail.vue.js"></script>
 <script src="js/slider.vue.js"></script>
 <script src="js/main.vue.js"></script>

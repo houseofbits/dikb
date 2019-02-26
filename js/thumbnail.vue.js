@@ -8,6 +8,9 @@ Vue.component('thumbnail', {
     computed:{
         imageSrc:function() {
             return '/image/'+this.article.imageID+'/1';
+        },
+        imageId:function () {
+            return this.article.imageID;
         }
     },
     methods: {
