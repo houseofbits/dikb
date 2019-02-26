@@ -33,7 +33,7 @@ include("../config.php");
         </ul>
     </div>
 
-    <div id="content">
+    <div id="content" v-cloak>
 
 
         <transition name="fade"
@@ -70,17 +70,31 @@ include("../config.php");
     </div>
     <div id="footer">
         <p>SIA "DIZAINA UN INTERJERA KONSULTĀCIJU BIROJS"</p>
-        <!--img src="img/icons8-licence-100.svg"-->
-        <p>:: LV 40003396980</p>
-        <p>:: Inčukalna nov., Inčukalna pag., Inčukalns, "Mākoņi", LV-2141</p>
-        <p>:: Telefona nr. +371 29648203</p>
-        <p>:: Epasts: dikb@dikb.lv</p>
+        <p><img src="img/licence.svg" class="footerIcon"> LV 40003396980</p>
+        <p><img src="img/home-address.svg" class="footerIcon"> Inčukalna nov., Inčukalna pag., Inčukalns, "Mākoņi", LV-2141</p>
+        <p><img src="img/phone.svg" class="footerIcon"> +371 67223854</p>
+        <p><img src="img/secured-letter.svg" class="footerIcon"> info@dizainsuninterjers.lv</p>
     </div>
 
 </div>
+<script type="text/x-template" id="preload-image-template">
+    <div class="preload-image">
+        <transition name="fade"
+                    v-on:before-enter="beforeEnter"
+                    v-on:enter="enter"
+                    v-on:leave="leave"
+                    v-bind:css="false"
+                    mode="out-in">
+
+            <img v-if="loaded" :src="imageSrc">
+        </transition>
+    </div>
+</script>
 <script type="text/x-template" id="thumbnail-template">
     <div class="icon-container cursor-pointer" v-on:click="open()">
-        <preload-image :id="imageId" thumbnail="1"></preload-image>
+        <div class="icon-image-wrap">
+            <preload-image :id="imageId" thumbnail="1"></preload-image>
+        </div>
         <p class="link-button">{{article.title}}</p>
     </div>
 </script>
@@ -91,8 +105,8 @@ include("../config.php");
             <li class="arrow l"></li>
             <li class="arrow r"></li>
         </ul>
-        <div id="slide-container">
-            <preload-image v-for="image in images" :id="image.id"></preload-image>
+        <div class="slide-container">
+            <preload-image v-for="(image, index) in images" :id="image.id" :key="index"></preload-image>
         </div>
     </div>
 </script>

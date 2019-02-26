@@ -1,17 +1,25 @@
 
 Vue.component('preload-image', {
     props: ['id', 'thumbnail'],
-    template:'<img :src="imageSrc">',
+    template:'#preload-image-template',
     data: function () {
         return {
             imageSrc:'',
+            loaded:false,
         }
     },
-    computed:{
-
-
-    },
     methods: {
+        beforeEnter: function (el) {
+            el.style.opacity = 0.1
+        },
+        enter: function (el, done) {
+            Velocity(el, { opacity: 1,
+            }, { duration: 300, complete: done })
+        },
+        leave: function (el, done) {
+            Velocity(el, { opacity: 0.1,
+            }, { duration: 300, complete: done })
+        },
         imageSource:function () {
             var thumb = '';
             if(this.thumbnail)thumb = '/1';
@@ -19,6 +27,12 @@ Vue.component('preload-image', {
         }
     },
     mounted:function () {
-        this.imageSrc = this.imageSource();
+        var parent = this;
+        const img = new Image();
+        img.onload = function(){
+            parent.imageSrc = this.src;
+            parent.loaded = true;
+        };
+        img.src = this.imageSource();
     }
 })

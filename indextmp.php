@@ -22,10 +22,10 @@ include("../config.php");
     </div>
     <div id="footer">
         <p>SIA "DIZAINA UN INTERJERA KONSULTĀCIJU BIROJS"</p>
-        <p>:: LV 40003396980</p>
-        <p>:: Inčukalna nov., Inčukalna pag., Inčukalns, "Mākoņi", LV-2141</p>
-        <p>:: Telefona nr. +371 67223854</p>
-        <p>:: Epasts: info@dizainsuninterjers.lv</p>
+        <p><img src="img/licence.svg" class="footerIcon"> LV 40003396980</p>
+        <p><img src="img/home-address.svg" class="footerIcon"> Inčukalna nov., Inčukalna pag., Inčukalns, "Mākoņi", LV-2141</p>
+        <p><img src="img/phone.svg" class="footerIcon"> +371 67223854</p>
+        <p><img src="img/secured-letter.svg" class="footerIcon"> info@dizainsuninterjers.lv</p>
     </div>
 </div>
 </body>
