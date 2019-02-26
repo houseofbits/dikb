@@ -4,7 +4,7 @@ include("../config.php");
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>DIKB</title>
+    <title>Dizaina un interjera konsultāciju birojs</title>
     <meta name="revisit-after" content="20 days" />
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="robots" content="no-index, no-follow" />

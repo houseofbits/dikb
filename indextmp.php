@@ -1,6 +1,3 @@
-<?php
-include("../config.php");
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,8 +12,9 @@ include("../config.php");
     <link rel="stylesheet" href="/css/style.css" type="text/css" />
 </head>
 <body>
+<div id="bg1"></div>
 <div id="bg"></div>
-<div id="mainApp" v-cloak>
+<div id="mainApp">
     <div id="header">
         <img src="img/logo.png" width="122" height="131" v-on:click="showMain()"/>
     </div>
