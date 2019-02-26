@@ -210,6 +210,13 @@ var app = new Vue({
             }
             this.$http.post('api.php?updateSliderImages', formData).then(function(response) {
             }, function(){});
+        },
+        articleImageSrc:function (article) {
+            if(typeof article.images != 'undefined'
+                && typeof article.images[0] != 'undefined'){
+                return '/image/' + article.images[0].id + '';
+            }
+            return false;
         }
     },
     watch:{

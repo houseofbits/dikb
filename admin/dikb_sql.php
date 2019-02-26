@@ -196,7 +196,13 @@ class DIKB_SQL extends mysqli {
 		}
 		if($result){
 			while($obj = $result->fetch_array(MYSQLI_ASSOC)){
-				array_push($array, array('id'=>$obj['id'], 'title'=>$obj['title'], 'message'=>$obj['message'], 'category'=>$obj['catname'], 'catid'=>$obj['category'], 'frontpage'=>$obj['frontpage']));
+				array_push($array, array('id'=>$obj['id'],
+                    'title'=>$obj['title'],
+                    'message'=>$obj['message'],
+                    'category'=>$obj['catname'],
+                    'catid'=>$obj['category'],
+                    'images' => $this->GetImages($obj['id']),
+                    'frontpage'=>$obj['frontpage']));
 			}
 			$result->close();
 		}		

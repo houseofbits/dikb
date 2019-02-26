@@ -39,14 +39,33 @@
     <div class="m-3" v-cloak>
         <div class="card-columns">
             <div class="card" v-for="(article, index) in articles">
-                <div class="card-body text-center">
+                <img v-if="articleImageSrc(article)" class="card-img-top" :src="articleImageSrc(article)" alt="Card image">
+                <div class="card-body">
+                    <span class="badge badge-info">{{article.category}}</span>
                     <h4 class="card-title">{{article.title}}</h4>
                     <p class="card-text">{{article.message}}</p>
-                    <span class="badge badge-secondary">{{article.category}}</span>
-                    <hr>
+
                     <a href="#" v-on:click="getArticle(article.id)" data-toggle="modal" data-target="#articleModal" class="btn btn-primary">Labot</a>
                     <a href="#" v-on:click="articleData.title=article.title;articleData.id=article.id;" data-toggle="modal" data-target="#deleteArticleModal" class="btn btn-danger">Dzēst</a>
                 </div>
+
+                <!--div class="card-body text-center">
+
+                    <div class="card-img-overlay">
+                        <h4 class="card-title">{{article.title}}</h4>
+                        <p class="card-text">{{article.message}}</p>
+                        <span class="badge badge-secondary">{{article.category}}</span>
+                        <hr>
+                        <a href="#" v-on:click="getArticle(article.id)" data-toggle="modal" data-target="#articleModal" class="btn btn-primary">Labot</a>
+                        <a href="#" v-on:click="articleData.title=article.title;articleData.id=article.id;" data-toggle="modal" data-target="#deleteArticleModal" class="btn btn-danger">Dzēst</a>
+                    </div>
+
+                    <img class="card-img-top" :src="'/image/51/1'" alt="Image">
+
+
+
+
+                </div-->
             </div>
         </div>
     </div>
