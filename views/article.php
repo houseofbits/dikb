@@ -23,6 +23,6 @@
 
     </div>
     <div class="icons mt-10">
-        <thumbnail v-for="(article, index) in data.frontPageArticles" :article="article" :key="index"></thumbnail>
+        <thumbnail v-for="(article, index) in getCategoryArticles()" :article="article" :key="index"></thumbnail>
     </div>
 </div>

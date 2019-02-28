@@ -99,7 +99,7 @@ include("../config.php");
 </script>
 <script type="text/x-template" id="slider-template">
     <div class="slider">
-        <div v-if="title" class="slider-title">{{title}}</div>
+        <div v-if="title" class="slider-title" v-on:click="open()">{{title}}</div>
         <ul class="dots">
             <li class="arrow l" v-on:click="prev()"></li>
             <li class="arrow r" v-on:click="next()"></li>

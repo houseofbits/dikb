@@ -24,6 +24,12 @@ var app = new Vue({
         },
     },
     methods: {
+        getCategoryArticles:function () {
+            for(i in this.data.fullCategories){
+                if(this.data.fullCategories[i].id == this.selectedArticleData.catid)return this.data.fullCategories[i].articles;
+            }
+            return false;
+        },
         showMain:function () {
             if(this.selectedPage == 'main')return;
             this.selectedPage = 'main';

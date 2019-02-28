@@ -37,7 +37,7 @@ class DIKB_SQL extends mysqli {
 				$array = array();		
 				while($obj = $result->fetch_array(MYSQLI_ASSOC)){
 					array_push($array, ['id'=>$obj['imageID'],
-                                        'catID'=>$obj['catid'],
+                                        'catid'=>$obj['catid'],
                                         'category'=>$obj['category'],
                                         'articleTitle'=>$obj['articleTitle'],
                                         'articleid'=>$obj['articleid']]);
@@ -57,7 +57,7 @@ class DIKB_SQL extends mysqli {
 		if($result = $this->query("
 				SELECT 
 					a.id id,
-					c.id catID,
+					c.id catid,
 					a.title,
 					c.title category,
 					im.id imageID
@@ -77,7 +77,7 @@ class DIKB_SQL extends mysqli {
 			$array = array();		
 			while($obj = $result->fetch_array(MYSQLI_ASSOC)){
 				array_push($array, array('id'=>$obj['id'], 
-										'catID'=>$obj['catID'], 
+										'catid'=>$obj['catid'],
 										'title'=>$obj['title'], 
 										'category'=>$obj['category'], 
 										'imageID'=>$obj['imageID']));
@@ -92,7 +92,7 @@ class DIKB_SQL extends mysqli {
 
 		if($result = $this->query("SELECT 
 					a.id id,
-					c.id catID,
+					c.id catid,
 					a.title,
 					c.title category,
 					a.message,
@@ -155,7 +155,7 @@ class DIKB_SQL extends mysqli {
                 $result = $this->query("
 				SELECT 
 					a.id id,
-					c.id catID,
+					c.id catid,
 					a.title,
 					c.title category,
 					a.message,

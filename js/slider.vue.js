@@ -7,9 +7,13 @@ Vue.component('slider', {
             currentImage:0,
             timer:null,
             title:null,
+            articleid:null,
         }
     },
     methods:{
+        open:function () {
+            //this.$parent.showArticle(this.article);
+        },
         next:function () {
             this.currentImage = this.currentImage + 1;
             if(this.currentImage == this.images.length)this.currentImage = 0;
@@ -51,12 +55,14 @@ Vue.component('slider', {
             if(typeof this.images[val] != 'undefined'
                 && typeof this.images[val].articleTitle != 'undefined'){
                 this.title = this.images[val].articleTitle;
+                this.articleid = this.images[val].articleid;
             }
         },
         'images':function(){
             if(typeof this.images[this.currentImage] != 'undefined'
                 && typeof this.images[this.currentImage].articleTitle != 'undefined'){
                 this.title = this.images[this.currentImage].articleTitle;
+                this.articleid = this.images[val].articleid;
             }
         }
     },
