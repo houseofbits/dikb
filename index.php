@@ -102,11 +102,18 @@ include("../config.php");
     <div class="slider">
         <div v-if="title" class="slider-title">{{title}}</div>
         <ul class="dots">
-            <li class="arrow l"></li>
-            <li class="arrow r"></li>
+            <li class="arrow l" v-on:click="prev()"></li>
+            <li class="arrow r" v-on:click="next()"></li>
         </ul>
         <div class="slide-container">
-            <preload-image v-for="(image, index) in images" :id="image.id" :key="index"></preload-image>
+            <transition-group name="fadeLeft"
+                              v-on:before-enter="beforeEnter"
+                              v-on:enter="enter"
+                              v-on:leave="leave"
+                              v-bind:css="false"
+                              mode="out-in">
+                <preload-image v-for="(image, index) in images" v-if="index==currentImage" :key="image.id" :id="image.id"></preload-image>
+            </transition-group>
         </div>
     </div>
 </script>
