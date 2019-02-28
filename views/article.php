@@ -9,7 +9,7 @@
     </div>
     <div class="article-slider mt-10">
 
-        <slider :images="selectedArticleData.images"></slider>
+        <slider :images="selectedArticleData.images" interval="4000"></slider>
 
     </div>
 

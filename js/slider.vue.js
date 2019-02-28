@@ -1,6 +1,6 @@
 
 Vue.component('slider', {
-    props: ['images', 'title', 'description'],
+    props: ['images', 'title', 'description', 'interval'],
     template:'#slider-template',
     data: function () {
         return {
@@ -25,17 +25,20 @@ Vue.component('slider', {
         },
         enter: function (el, done) {
 
-            Velocity(el, { opacity: 1,
+            Velocity(el, { opacity: 1
                 // maxHeight: -el.offsetHeight
-            }, { duration: 1000, complete: done })
+            }, { duration: 700, complete: done })
 
             //console.log(getComputedStyle(el).height);
         },
         leave: function (el, done) {
 
-            Velocity(el, { opacity: 0,
+            Velocity(el, { opacity: 0
                 //   maxHeight: -el.offsetHeight
-            }, { duration: 1000, complete: done })
+            }, { duration: 700, complete: done })
         }
+    },
+    mounted:function () {
+        if(this.interval > 0)setInterval(this.next, this.interval);
     }
 })
