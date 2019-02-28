@@ -116,6 +116,7 @@ var app = new Vue({
             this.$http.post('api.php?upload',formData).then(function(response) {
                 if(typeof response.body.imageId != 'undefined'){
                     this.getImages(this.articleData.id);
+                    this.getArticles(this.selectedCategoryId);
                 }
                 if(typeof response.body.error != 'undefined'){
                     this.imageError = response.body.error;
@@ -138,7 +139,11 @@ var app = new Vue({
             formData.append('frontpage', this.articleData.frontpage);
             this.$http.post('api.php?save',formData).then(function(response) {
                 this.articleData = response.body;
+                //this.getArticles(this.selectedCategoryId);
+                this.selectedCategoryId = this.articleData.catid;
                 this.getArticles(this.selectedCategoryId);
+                this.getCategories();
+
             }, function(){});
         },
         newArticle:function () {
