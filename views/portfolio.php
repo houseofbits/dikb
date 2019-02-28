@@ -1,5 +1,4 @@
-
-<div class="content-block-wide" v-for="category in data.portfolioOverview">
+<div class="content-block-wide" v-for="category in data.fullCategories">
     <div class="header-line mt-10">
         <div class="header">
             <a class="link-button">{{category.title}}</a>

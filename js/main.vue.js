@@ -2,7 +2,6 @@ var app = new Vue({
     el: '#mainApp',
     data: {
         show:true,
-
         selectedPage:null,
         selectedArticleData:null,
         data:{
@@ -67,8 +66,6 @@ var app = new Vue({
 
     },
     mounted:function () {
-        var parent = this;
-        this.getPageData();
         this.showMain();
     }
 });

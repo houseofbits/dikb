@@ -1,11 +1,12 @@
 
 Vue.component('slider', {
-    props: ['images', 'title', 'description', 'interval'],
+    props: ['images', 'description', 'interval'],
     template:'#slider-template',
     data: function () {
         return {
             currentImage:0,
             timer:null,
+            title:null,
         }
     },
     methods:{
@@ -43,6 +44,20 @@ Vue.component('slider', {
             Velocity(el, { opacity: 0
                 //   maxHeight: -el.offsetHeight
             }, { duration: 700, complete: done })
+        }
+    },
+    watch:{
+        'currentImage':function (val) {
+            if(typeof this.images[val] != 'undefined'
+                && typeof this.images[val].articleTitle != 'undefined'){
+                this.title = this.images[val].articleTitle;
+            }
+        },
+        'images':function(){
+            if(typeof this.images[this.currentImage] != 'undefined'
+                && typeof this.images[this.currentImage].articleTitle != 'undefined'){
+                this.title = this.images[this.currentImage].articleTitle;
+            }
         }
     },
     mounted:function () {

@@ -93,7 +93,7 @@ include("../config.php");
 <script type="text/x-template" id="thumbnail-template">
     <div class="icon-container cursor-pointer" v-on:click="open()">
         <div class="icon-image-wrap">
-            <preload-image :id="imageId" thumbnail="1"></preload-image>
+            <preload-image :imageid="imageId" thumbnail="1"></preload-image>
         </div>
         <p class="link-button">{{article.title}}</p>
     </div>
@@ -112,7 +112,7 @@ include("../config.php");
                               v-on:leave="leave"
                               v-bind:css="false"
                               mode="out-in">
-                <preload-image v-for="(image, index) in images" v-if="index==currentImage" :key="image.id" :id="image.id"></preload-image>
+                <preload-image v-for="(image, index) in images" v-if="index==currentImage" :key="image.id" :imageid="image.id"></preload-image>
             </transition-group>
         </div>
     </div>

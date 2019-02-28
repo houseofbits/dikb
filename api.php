@@ -9,7 +9,7 @@ $db = new DIKB_SQL($conf['sql_host'], $conf['sql_user'], $conf['sql_password'], 
 $data = [
     'frontPageArticles' => $db->GetFrontPageArticles(),
     'portfolioOverview' => $db->GetPortfolioArticles(),
-    'fullCategories' => [],
+    'fullCategories' => $db->GetFullCategories(),
     'sliderImages' => $db->GetSliderData(),
 ];
 

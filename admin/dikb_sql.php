@@ -27,7 +27,7 @@ class DIKB_SQL extends mysqli {
 	//interface	
 	
 	public function GetSliderData(){
-		if($result = $this->query("SELECT im.id imageID, c.title category, c.id catid, a.id articleid
+		if($result = $this->query("SELECT im.id imageID, c.title category, c.id catid, a.id articleid, a.title articleTitle
 			FROM images im
 				LEFT JOIN articles a ON a.id = im.articleid
 				LEFT JOIN category c ON c.id = a.category
@@ -37,9 +37,10 @@ class DIKB_SQL extends mysqli {
 				$array = array();		
 				while($obj = $result->fetch_array(MYSQLI_ASSOC)){
 					array_push($array, ['id'=>$obj['imageID'],
-											'catID'=>$obj['catid'], 
-											'category'=>$obj['category'], 
-											'articleid'=>$obj['articleid']]);
+                                        'catID'=>$obj['catid'],
+                                        'category'=>$obj['category'],
+                                        'articleTitle'=>$obj['articleTitle'],
+                                        'articleid'=>$obj['articleid']]);
 				}
 				$result->close();
 				return $array;		
@@ -120,8 +121,27 @@ class DIKB_SQL extends mysqli {
 		}			
 		
 		return 0;	
-	}	
-	
+	}
+
+    public function GetFullCategories()
+    {
+        if ($result = $this->query("SELECT count(a.id) as numArticles, c.*
+                                            FROM category c
+                                            LEFT JOIN articles a ON a.category=c.id                                            
+                                            GROUP by c.id
+                                            HAVING count(a.id) > 0;")
+        ) {
+            $categories = $this->fetchAll($result);
+
+            foreach ($categories as &$cat) {
+                $cat['articles'] = $this->GetArticlesArray($cat['id']);
+            }
+
+            return $categories;
+        }
+        return false;
+    }
+
 	public function GetPortfolioArticles(){
 
         if($result = $this->query("SELECT count(a.id) as numArticles, c.*
@@ -196,13 +216,18 @@ class DIKB_SQL extends mysqli {
 		}
 		if($result){
 			while($obj = $result->fetch_array(MYSQLI_ASSOC)){
-				array_push($array, array('id'=>$obj['id'],
-                    'title'=>$obj['title'],
-                    'message'=>$obj['message'],
-                    'category'=>$obj['catname'],
-                    'catid'=>$obj['category'],
-                    'images' => $this->GetImages($obj['id']),
-                    'frontpage'=>$obj['frontpage']));
+			    $images = $this->GetImages($obj['id']);
+			    if(!empty($images)) {
+
+                    $array[] = ['id' => $obj['id'],
+                        'title' => $obj['title'],
+                        'message' => $obj['message'],
+                        'category' => $obj['catname'],
+                        'catid' => $obj['category'],
+                        'imageID' => $images[0]['id'],
+                        'images' => $images,
+                        'frontpage' => $obj['frontpage']];
+                }
 			}
 			$result->close();
 		}		

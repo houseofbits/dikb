@@ -2,7 +2,7 @@
 <div id="intro">
 
     <div class="intro-slider mt-18">
-        <slider title="Interjera noformējums" :images="data.sliderImages" interval="6000"></slider>
+        <slider :images="data.sliderImages" interval="6000"></slider>
     </div>
 
     <div class="intro-text-block mt-18">

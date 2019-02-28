@@ -1,6 +1,6 @@
 
 Vue.component('preload-image', {
-    props: ['id', 'thumbnail'],
+    props: ['imageid', 'thumbnail'],
     template:'#preload-image-template',
     data: function () {
         return {
@@ -23,16 +23,18 @@ Vue.component('preload-image', {
         imageSource:function () {
             var thumb = '';
             if(this.thumbnail)thumb = '/1';
-            return '/image/' + this.id + thumb;
+            return '/image/' + this.imageid + thumb;
         }
     },
     mounted:function () {
-        var parent = this;
         const img = new Image();
+        img.parentComponent = this;
         img.onload = function(){
-            parent.imageSrc = this.src;
-            parent.loaded = true;
+            //console.log(this.parentComponent.imageid + ' / ' + this.src);
+            this.parentComponent.imageSrc = this.src;
+            this.parentComponent.loaded = true;
         };
         img.src = this.imageSource();
+        //console.log(img.parentComponent.imageid + ' // ' + img.src);
     }
 })
