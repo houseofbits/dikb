@@ -14,7 +14,8 @@ if(isset($_GET['allImages'])){
 if(isset($_GET['articles'])){
     $catid = -1;
     if(!empty($_GET['articles']))$catid = $_GET['articles'];
-    echo json_encode($db->GetArticlesArray($catid));
+    if($catid == 'FRONTPAGE')echo json_encode($db->GetArticlesArray(-1, true));
+    else echo json_encode($db->GetArticlesArray($catid));
 }
 if(!empty($_GET['images'])){
     echo json_encode($db->GetImages($_GET['images']));
@@ -46,11 +47,11 @@ if(isset($_GET['updateSliderImages']) && !empty($_POST['images'])){
 if(isset($_GET['save'])){
     $id = null;
     if(!empty($_POST['id'])){
-        if($db->UpdateArticle($_POST['id'],$_POST['title'],$_POST['message'],false,$_POST['catid'])){
+        if($db->UpdateArticle($_POST['id'], $_POST['title'], $_POST['message'], filter_var($_POST['frontpage'], FILTER_VALIDATE_BOOLEAN), $_POST['catid'])){
             $id = $_POST['id'];
         }
     }else{
-        $id = $db->CreateArticle($_POST['catid'], $_POST['title'], $_POST['message']);
+        $id = $db->CreateArticle($_POST['catid'], $_POST['title'], $_POST['message'], filter_var($_POST['frontpage'], FILTER_VALIDATE_BOOLEAN));
     }
     if($id)echo json_encode($db->GetArticle($id));
 }

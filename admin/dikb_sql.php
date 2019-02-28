@@ -90,8 +90,7 @@ class DIKB_SQL extends mysqli {
 	
 	public function GetFrontPageArticles(){
 
-		if($result = $this->query("
-				SELECT 
+		if($result = $this->query("SELECT 
 					a.id id,
 					c.id catID,
 					a.title,
@@ -101,17 +100,18 @@ class DIKB_SQL extends mysqli {
 				FROM articles a
 					LEFT JOIN category c ON c.id = a.category
 					LEFT JOIN images im ON im.articleid = a.id
-				WHERE 
+				WHERE (
 					(SELECT COUNT(*) FROM images WHERE images.articleid=a.id)>0 AND
 					(SELECT COUNT(*) FROM images WHERE images.articleid=a.id AND images.first>0)>0 AND
 					im.first>0 
 				OR
 					(SELECT COUNT(*) FROM images WHERE images.articleid=a.id)>0 AND
 					(SELECT COUNT(*) FROM images WHERE images.articleid=a.id AND images.first>0)=0	
+                    ) AND a.frontpage>0
+                GROUP BY a.id
 				ORDER BY RAND()
-				LIMIT 0,4;
-				
-				")){
+				LIMIT 0,4;")){
+
 			$articles = $this->fetchAll($result);//->fetch_all(MYSQLI_ASSOC);
             foreach ($articles as &$article){
                 $article['images'] = $this->GetImages($article['id']);
@@ -205,14 +205,18 @@ class DIKB_SQL extends mysqli {
 		}		
 		return $array;
 	}		
-	public function GetArticlesArray($cat = -1){
+	public function GetArticlesArray($cat = -1, $frontpage = null){
 		$array = array();
 		$result = 0; 
 		
 		if($cat>=0) {
 			$result = $this->query("SELECT articles.*, category.id as catid, category.title as catname FROM articles LEFT JOIN category ON articles.category=category.id WHERE category.id='$cat';");
 		}else{
-			$result = $this->query("SELECT articles.*, category.title as catname FROM articles LEFT JOIN category ON articles.category=category.id;");						
+			if($frontpage)
+			    $result = $this->query("SELECT articles.*, category.title as catname FROM articles LEFT JOIN category ON articles.category=category.id
+                  WHERE articles.frontpage>0;");
+            else
+                $result = $this->query("SELECT articles.*, category.title as catname FROM articles LEFT JOIN category ON articles.category=category.id;");
 		}
 		if($result){
 			while($obj = $result->fetch_array(MYSQLI_ASSOC)){
@@ -226,7 +230,7 @@ class DIKB_SQL extends mysqli {
                         'catid' => $obj['category'],
                         'imageID' => $images[0]['id'],
                         'images' => $images,
-                        'frontpage' => $obj['frontpage']];
+                        'frontpage' => ($obj['frontpage']>0)];
                 }
 			}
 			$result->close();
@@ -273,12 +277,12 @@ class DIKB_SQL extends mysqli {
 			}
 			return 0;
 		}
-		return 1;		
+		return 1;
 	}			
-	public function CreateArticle($category, $title, $message=''){
+	public function CreateArticle($category, $title, $message='', $frontpage=0){
 		$title = $this->escape_string($title);
         $message = $this->escape_string($message);
-        if(settype($category, 'integer') && $result = $this->real_query("INSERT INTO articles (id,title,message,category) VALUES (NULL, '$title', '$message', '$category');")){
+        if(settype($category, 'integer') && $result = $this->real_query("INSERT INTO articles (id,title,message,category, frontpage) VALUES (NULL, '$title', '$message', '$category', '$frontpage');")){
 			return $this->insert_id;			
 		}
 		return 0;
@@ -295,7 +299,7 @@ class DIKB_SQL extends mysqli {
                 'message'=>$obj['message'],
                 'category'=>$obj['catname'],
                 'catid'=>$obj['category'],
-                'frontpage'=>$obj['frontpage'],
+                'frontpage'=>($obj['frontpage'] > 0),
                 'images' => $this->GetImages($id)
             ];
 			$result->close();

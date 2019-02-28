@@ -35,7 +35,6 @@ include("../config.php");
 
     <div id="content" v-cloak>
 
-
         <transition name="fade"
                     v-on:before-enter="beforeEnter"
                     v-on:enter="enter"

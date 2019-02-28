@@ -37,8 +37,7 @@ if(empty($_SESSION['userLogedIn'])) {
     </nav>
 
     <div class="m-3">
-        <a href="#" class="btn" :class="{'btn-primary':!selectedCategoryId, 'btn-info':selectedCategoryId}" v-on:click="getArticles('')">Visas kategorijas</a>
-        <a href="#" v-for="category in categories" v-if="category.numArticles>0" class="btn ml-2" :class="{'btn-primary':(selectedCategoryId==category.id), 'btn-info':(selectedCategoryId!=category.id)}" v-on:click="getArticles(category.id)">
+        <a href="#" class="btn mr-2 mb-2" :class="{'btn-primary':!selectedCategoryId, 'btn-info':selectedCategoryId}" v-on:click="getArticles('')">Visas kategorijas</a><a href="#" class="btn mr-2 mb-2" :class="{'btn-primary':selectedCategoryId=='FRONTPAGE', 'btn-info':selectedCategoryId!='FRONTPAGE'}" v-on:click="getArticles('FRONTPAGE')">Sākumlapas raksti</a><a href="#" v-for="category in categories" v-if="category.numArticles>0" class="btn mr-2 mb-2" :class="{'btn-primary':(selectedCategoryId==category.id), 'btn-info':(selectedCategoryId!=category.id)}" v-on:click="getArticles(category.id)">
             {{category.title}} <span class="badge badge-light">{{category.numArticles}}</span>
         </a>
     </div>
@@ -193,12 +192,12 @@ if(empty($_SESSION['userLogedIn'])) {
                                     </div>
                                     <div class="form-group">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="switch1">
-                                            <label class="custom-control-label" for="switch1">Rādīt galvenajā lapā</label>
+                                            <input type="checkbox" class="custom-control-input" id="switch1" v-model="articleData.frontpage">
+                                            <label class="custom-control-label" for="switch1">Rādīt sākumlapā</label>
                                         </div>
                                     </div>
-                                    <button v-if="articleData.id" type="button" class="mt-3 btn btn-success" v-on:click="saveArticle()" data-dismiss="modal">Saglabāt un aizvērt</button>
-                                    <button v-else="" type="button" class="mt-3 btn btn-success" v-on:click="saveArticle()">Saglabāt</button>
+                                    <button type="button" class="mt-3 btn btn-success" v-on:click="saveArticle()" data-dismiss="modal">Saglabāt un aizvērt</button>
+                                    <button type="button" class="mt-3 btn btn-success" v-on:click="saveArticle()">Saglabāt</button>
                                 </div>
                             </div>
                         </div>
@@ -223,9 +222,9 @@ if(empty($_SESSION['userLogedIn'])) {
                                     </div>
 
                                     <div class="card-columns">
-                                        <div class="card bg-success" v-for="image in articleData.images">
+                                        <div class="card bg-success image-edit-container" v-for="image in articleData.images">
                                             <img class="card-img-top" :src="'/image/'+image.id+'/1'" alt="Image">
-                                            <div class="card-img-overlay">
+                                            <div class="card-img-overlay image-edit-buttons">
                                                 <a href="#" class="btn btn-danger" v-on:click="deleteImage(image.id)">Dzēst</a>
                                             </div>
                                         </div>

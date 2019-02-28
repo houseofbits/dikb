@@ -79,3 +79,10 @@
 #login .container #login-row #login-column #login-box #login-form #register-link {
     margin-top: -85px;
 }
+
+.image-edit-container > .image-edit-buttons{
+    display:none;
+}
+.image-edit-container:hover > .image-edit-buttons{
+    display:block;
+}

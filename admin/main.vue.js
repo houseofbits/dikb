@@ -13,6 +13,7 @@ var app = new Vue({
             catid:null,
             title:null,
             message:null,
+            frontpage:null,
             images:[],
         },
         imageError:null,
@@ -134,6 +135,7 @@ var app = new Vue({
             formData.append('catid', this.articleData.catid);
             formData.append('title', this.articleData.title);
             formData.append('message', this.articleData.message);
+            formData.append('frontpage', this.articleData.frontpage);
             this.$http.post('api.php?save',formData).then(function(response) {
                 this.articleData = response.body;
                 this.getArticles(this.selectedCategoryId);
@@ -146,6 +148,7 @@ var app = new Vue({
                 catid:null,
                 title:null,
                 message:null,
+                frontpage:false,
                 images:[],
             };
         },

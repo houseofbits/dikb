@@ -1,11 +1,13 @@
 <?php
     include("../../config.php");
+
+    session_start();
     if(!empty($_POST)){
         if(!empty($_POST['username']) && !empty($_POST['password'])){
-            if(md5($_POST['username']) == '098f6bcd4621d373cade4e832627b4f6'
+            if(md5($_POST['username']) == $conf['admin_user']
             &&
-                md5($_POST['password']) == '098f6bcd4621d373cade4e832627b4f6'){
-                session_start();
+                md5($_POST['password']) == $conf['admin_password']){
+
                 $_SESSION['userLogedIn'] = $_POST['username'];
 
                 header('location: edit.php');
@@ -44,7 +46,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Parole:</label><br>
-                                <input type="text" name="password" id="password" class="form-control">
+                                <input type="password" name="password" id="password" class="form-control">
                             </div>
                             <div class="form-group">
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="Pieslēgties">
