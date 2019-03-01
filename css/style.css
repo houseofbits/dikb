@@ -144,6 +144,7 @@ a{
     padding-top: 18px;
     padding-bottom: 9px;
     mix-blend-mode: darken;
+    z-index: -8;
 }
 #footer>p:first-child{
 
@@ -162,6 +163,30 @@ a{
     align-items:center;
     color:#D3D3D3;
 }
+
+#contacts{
+    float:left;
+    width:100%;
+    height:auto;
+    padding-top: 18px;
+    padding-bottom: 9px;
+    z-index: -8;
+}
+#contacts>p{
+    margin:0;
+    margin-bottom:9px;
+    margin-left:18px;
+    color:gray;
+    font-family: "Cambria";
+    text-align: left;
+    font-size: 14px;
+    line-height: 14px;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items:center;
+    color:black;
+}
+
 .footerIcon{
     width:14px;
     height:14px;
@@ -376,40 +401,6 @@ div.icon-container>p{
     border:none 1px #000; 
     width:182px;
 }
-
-/********************************** item ********************************/
-div.item_container{
-    float:left;
-    height:auto;
-    width:763px;
-    margin-left:35px;
-    border:none 1px #000;  
-}
-div.item_container>div:nth-child(1){
-    position:relative;
-    float:left;
-    width:100%;
-    height:300px;
-    background-color:#ffffff;
-    overflow:hidden;       
-}
-div.item_container>div:nth-child(2){
-    position:relative;
-    float:left;
-    width:100%; 
-    border:none 1px #000; 
-    height:auto;
-    margin-top:10px;
-    margin-bottom:10px;    
-    text-align:left;
-   font-family:"Cambria";    
-
-   font-size:13px;
-   line-height:13px;
-   overflow:hidden;
-   letter-spacing:0.1em;    
-}
-
 .cursor-pointer{
     cursor:pointer;
 }

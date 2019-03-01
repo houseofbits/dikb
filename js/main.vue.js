@@ -22,6 +22,9 @@ var app = new Vue({
         isPortfolio:function() {
             return this.selectedPage == 'portfolio';
         },
+        isContacts:function() {
+            return this.selectedPage == 'contacts';
+        },
     },
     methods: {
         getCategoryArticles:function () {
@@ -37,6 +40,9 @@ var app = new Vue({
         },
         showPortfolio:function () {
             this.selectedPage = 'portfolio';
+        },
+        showContacts:function () {
+            this.selectedPage = 'contacts';
         },
         showArticle:function (article) {
             this.loading = true;
@@ -62,24 +68,31 @@ var app = new Vue({
             }, function(){});
         },
 
-
         beforeEnter: function (el) {
             el.style.opacity = 0.1
         },
         enter: function (el, done) {
-
             Velocity(el, { opacity: 1,
-               // maxHeight: -el.offsetHeight
             }, { duration: 200, complete: done })
-
-            //console.log(getComputedStyle(el).height);
         },
         leave: function (el, done) {
-
             Velocity(el, { opacity: 0.1,
-             //   maxHeight: -el.offsetHeight
             }, { duration: 200, complete: done })
+        },
+
+        footerBeforeEnter: function (el) {
+            el.style.opacity = 0.1;
+        },
+        footerEnter: function (el, done) {
+            Velocity(el, { opacity: 1,//translateY:0,
+            }, { duration: 500, complete: done })
+        },
+        footerLeave: function (el, done) {
+            Velocity(el, { opacity: 0.1,//translateY:-200,
+            }, { duration: 500, complete: done })
         }
+
+
 
     },
     mounted:function () {

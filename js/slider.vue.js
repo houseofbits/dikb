@@ -11,6 +11,13 @@ Vue.component('slider', {
         }
     },
     methods:{
+        imageCount:function () {
+            return Object.keys(this.images).length;
+        },
+        slide:function (index) {
+            this.currentImage = index;
+            this.restartSlideTimer();
+        },
         open:function () {
             this.$parent.showArticleById(this.articleid);
         },

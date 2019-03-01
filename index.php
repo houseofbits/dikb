@@ -26,7 +26,7 @@ include("../config.php");
     <div id="header">
         <img src="img/logo.png" width="122" height="131" v-on:click="showMain()"/>
         <ul id="main_menu">
-            <li :class="{selected:(selectedPage=='contacts')}">Kontakti</li>
+            <li v-on:click="showContacts" :class="{selected:(selectedPage=='contacts')}">Kontakti</li>
             <!--li :class="{selected:(selectedPage=='services')}">Pakalpojumi</li-->
             <li v-on:click="showPortfolio" :class="{selected:(selectedPage=='portfolio'||selectedPage=='article')}">Portfolio</li>
             <li v-on:click="showMain" :class="{selected:(selectedPage=='main')}">Sākums</li>
@@ -35,45 +35,41 @@ include("../config.php");
 
     <div id="content" v-cloak>
 
-        <transition name="fade"
-                    v-on:before-enter="beforeEnter"
+        <transition v-on:before-enter="beforeEnter"
                     v-on:enter="enter"
                     v-on:leave="leave"
                     v-bind:css="false"
                     mode="out-in">
 
             <div v-if="isMain" class="content-block" key="main">
-
                 <?php include 'views/main.php'?>
-
             </div>
             <div v-else-if="isArticle" class="content-block" key="article">
-
                 <?php include 'views/article.php'?>
-
             </div>
             <div v-else-if="isPortfolio" class="content-block" key="portfolio">
-
                 <?php include 'views/portfolio.php'?>
-
+            </div>
+            <div v-else-if="isContacts" class="content-block" key="contacts">
+                <?php include 'views/contacts.php'?>
             </div>
         </transition>
 
-
-
-
-
-
-
-
     </div>
-    <div id="footer">
-        <p>SIA "DIZAINA UN INTERJERA KONSULTĀCIJU BIROJS"</p>
-        <p><img src="img/licence.svg" class="footerIcon"> LV 40003396980</p>
-        <p><img src="img/home-address.svg" class="footerIcon"> Inčukalna nov., Inčukalna pag., Inčukalns, "Mākoņi", LV-2141</p>
-        <p><img src="img/phone.svg" class="footerIcon"> +371 67223854</p>
-        <p><img src="img/secured-letter.svg" class="footerIcon"> info@dizainsuninterjers.lv</p>
-    </div>
+
+    <transition v-on:before-enter="footerBeforeEnter"
+                v-on:enter="footerEnter"
+                v-on:leave="footerLeave"
+                v-bind:css="false"
+                mode="out-in">
+        <div id="footer" v-if="!isContacts">
+            <p>SIA "DIZAINA UN INTERJERA KONSULTĀCIJU BIROJS"</p>
+            <p><img src="img/licence.svg" class="footerIcon"> LV 40003396980</p>
+            <p><img src="img/home-address.svg" class="footerIcon"> Inčukalna nov., Inčukalna pag., Inčukalns, "Mākoņi", LV-2141</p>
+            <p><img src="img/phone.svg" class="footerIcon"> +371 67223854</p>
+            <p><img src="img/secured-letter.svg" class="footerIcon"> info@dizainsuninterjers.lv</p>
+        </div>
+    </transition>
 
 </div>
 <script type="text/x-template" id="preload-image-template">
@@ -101,8 +97,9 @@ include("../config.php");
     <div class="slider">
         <div v-if="title" class="slider-title" v-on:click="open()">{{title}}</div>
         <ul class="dots">
-            <li class="arrow l" v-on:click="prev()"></li>
-            <li class="arrow r" v-on:click="next()"></li>
+            <li v-if="imageCount() > 1" v-for="(image, index) in images" :class="{'selected':index==currentImage}" v-on:click="slide(index)"></li>
+            <li v-if="imageCount() > 1" class="arrow l" v-on:click="prev()"></li>
+            <li v-if="imageCount() > 1" class="arrow r" v-on:click="next()"></li>
         </ul>
         <div class="slide-container">
             <transition-group name="fadeLeft"
