@@ -12,7 +12,7 @@ Vue.component('slider', {
     },
     methods:{
         open:function () {
-            //this.$parent.showArticle(this.article);
+            this.$parent.showArticleById(this.articleid);
         },
         next:function () {
             this.currentImage = this.currentImage + 1;
@@ -62,7 +62,7 @@ Vue.component('slider', {
             if(typeof this.images[this.currentImage] != 'undefined'
                 && typeof this.images[this.currentImage].articleTitle != 'undefined'){
                 this.title = this.images[this.currentImage].articleTitle;
-                this.articleid = this.images[val].articleid;
+                this.articleid = this.images[this.currentImage].articleid;
             }
         }
     },

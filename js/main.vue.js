@@ -43,6 +43,17 @@ var app = new Vue({
             this.selectedPage = 'article';
             this.selectedArticleData = article;
         },
+        showArticleById:function (articleid) {
+            for(i in this.data.fullCategories){
+                for(a in this.data.fullCategories[i].articles){
+                    if(articleid == this.data.fullCategories[i].articles[a].id){
+                        this.showArticle(this.data.fullCategories[i].articles[a]);
+                        return;
+                    }
+                }
+            }
+
+        },
         getPageData:function () {
             this.loading = true;
             this.$http.get('api.php').then(function(response) {
