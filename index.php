@@ -12,12 +12,9 @@ include("../config.php");
     <meta name="keywords" content="" />
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script-->
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
-    <!--script type="text/javascript" src="<?=BASE_URL;?>/js/jquery.backgroundpos.min.js"></script-->
-
-    <link rel="stylesheet" href="<?=BASE_URL;?>/css/style.css" type="text/css" />
+    <link rel="stylesheet" href="/css/style.css" type="text/css" />
 </head>
 <body>
 <div id="bg1"></div>
