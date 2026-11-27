@@ -102,9 +102,11 @@ usePageMeta({
         </aside>
       </div>
 
-      <div v-if="project.narrative" class="grid-12 content">
+      <div v-if="project.narrative" class="grid-12 content narrative">
         <span class="label section-label">{{ t('common.about') }}</span>
-        <p class="lead-text">{{ pick(project.narrative, locale) }}</p>
+        <div class="lead-text">
+          <p>{{ pick(project.narrative, locale) }}</p>
+        </div>
       </div>
       <div v-else class="grid-12 content">
         <article class="block">
@@ -249,6 +251,9 @@ usePageMeta({
 .hero-photo {
   aspect-ratio: 4 / 3;
   object-fit: contain;
+  /* the box is reserved to stop layout shift; the photo sits top-left in it with no grey fill */
+  object-position: left top;
+  background: none;
 }
 
 .content {
@@ -260,12 +265,22 @@ usePageMeta({
   grid-column: span 4;
 }
 
+/* label and text share one hairline, like every other block on the site */
+.section-label,
+.lead-text {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-ink);
+}
+
 .lead-text {
   grid-column: span 8;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(1.35rem, 2.2vw, 1.9rem);
-  line-height: 1.3;
+}
+
+/* the rule spans the full column; the text keeps a comfortable line length */
+.lead-text p {
+  font-size: clamp(1.125rem, 1.4vw, 1.3125rem);
+  line-height: 1.6;
+  max-width: 62ch;
 }
 
 .block {
@@ -374,6 +389,14 @@ usePageMeta({
   .block,
   .cell {
     grid-column: 1 / -1;
+  }
+  .lead-text {
+    padding-top: 0;
+    border-top: none;
+  }
+
+  .content.narrative {
+    row-gap: var(--space-3);
   }
 }
 </style>
