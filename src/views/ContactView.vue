@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import SectionHeading from '@/components/ui/SectionHeading.vue'
 import { usePageMeta } from '@/composables/usePageMeta'
 import { company } from '@/data/company'
 
 type Status = 'idle' | 'sending' | 'sent' | 'error'
-type ErrorKind = 'validation' | 'rate' | 'send'
+type ErrorKind = 'validation' | 'rate' | 'captcha' | 'send'
 
 const { t, locale } = useI18n()
 
@@ -21,9 +21,60 @@ const errorKind = ref<ErrorKind>('send')
 const invalidFields = ref<string[]>([])
 // Set on mount (client only) so the server can reject instant, bot-speed submits.
 const startedAt = ref(0)
-onMounted(() => {
+
+// Cloudflare Turnstile captcha, enabled only when a site key is configured at build time.
+const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY
+const captchaEl = ref<HTMLElement | null>(null)
+const captchaToken = ref('')
+let widgetId: string | undefined
+
+interface TurnstileApi {
+  render: (el: HTMLElement, options: Record<string, unknown>) => string
+  reset: (id?: string) => void
+  remove: (id?: string) => void
+}
+
+function loadTurnstile(): Promise<TurnstileApi> {
+  const w = window as unknown as { turnstile?: TurnstileApi }
+  if (w.turnstile) return Promise.resolve(w.turnstile)
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+    script.async = true
+    script.onload = () => (w.turnstile ? resolve(w.turnstile) : reject(new Error('turnstile')))
+    script.onerror = () => reject(new Error('turnstile'))
+    document.head.appendChild(script)
+  })
+}
+
+onMounted(async () => {
   startedAt.value = Date.now()
+  if (!turnstileSiteKey) return
+  try {
+    const turnstile = await loadTurnstile()
+    if (!captchaEl.value) return
+    widgetId = turnstile.render(captchaEl.value, {
+      sitekey: turnstileSiteKey,
+      language: locale.value,
+      callback: (token: string) => (captchaToken.value = token),
+      'expired-callback': () => (captchaToken.value = ''),
+      'error-callback': () => (captchaToken.value = ''),
+    })
+  } catch {
+    // Captcha script blocked or offline: the server rejects the submit and the user sees the error.
+  }
 })
+
+onBeforeUnmount(() => {
+  const w = window as unknown as { turnstile?: TurnstileApi }
+  if (widgetId !== undefined) w.turnstile?.remove(widgetId)
+})
+
+function resetCaptcha() {
+  captchaToken.value = ''
+  const w = window as unknown as { turnstile?: TurnstileApi }
+  if (widgetId !== undefined) w.turnstile?.reset(widgetId)
+}
 
 const errorMessage = computed(() => t(`contact.error.${errorKind.value}`))
 
@@ -35,7 +86,12 @@ async function handleSubmit() {
     const response = await fetch('/api/contact.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...form, locale: locale.value, startedAt: startedAt.value }),
+      body: JSON.stringify({
+        ...form,
+        locale: locale.value,
+        startedAt: startedAt.value,
+        captcha: captchaToken.value,
+      }),
     })
     const result = (await response.json().catch(() => ({}))) as {
       ok?: boolean
@@ -47,13 +103,15 @@ async function handleSubmit() {
       Object.assign(form, { name: '', organization: '', email: '', message: '', website: '' })
       return
     }
-    errorKind.value =
-      result.error === 'validation' ? 'validation' : result.error === 'rate' ? 'rate' : 'send'
+    const kinds: ErrorKind[] = ['validation', 'rate', 'captcha']
+    errorKind.value = kinds.find((k) => k === result.error) ?? 'send'
     invalidFields.value = result.fields ?? []
     status.value = 'error'
+    resetCaptcha()
   } catch {
     errorKind.value = 'send'
     status.value = 'error'
+    resetCaptcha()
   }
 }
 </script>
@@ -158,6 +216,8 @@ async function handleSubmit() {
             </label>
           </div>
 
+          <div v-if="turnstileSiteKey" ref="captchaEl" class="captcha"></div>
+
           <div class="form-foot">
             <button type="submit" class="submit label" :disabled="status === 'sending'">
               {{ status === 'sending' ? t('contact.sending') : `${t('contact.formSubmit')} →` }}
@@ -250,6 +310,10 @@ async function handleSubmit() {
 
 .field.invalid .label {
   color: var(--color-signal-ink);
+}
+
+.captcha {
+  min-height: 65px;
 }
 
 .honeypot {

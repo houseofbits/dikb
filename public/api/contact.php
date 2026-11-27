@@ -10,19 +10,27 @@
  *   CONTACT_FROM     sender address; should be on the site's own domain so
  *                    SPF/DKIM pass and the message doesn't land in spam
  *   CONTACT_ORIGINS  comma-separated list of allowed browser Origins
+ *   TURNSTILE_SECRET Cloudflare Turnstile secret key; when set, every submit must
+ *                    carry a valid captcha token (pair with VITE_TURNSTILE_SITE_KEY
+ *                    at build time)
+ *   CONTACT_TRUST_CF set to 1 only when the site is proxied through Cloudflare, so
+ *                    the real visitor IP is read from CF-Connecting-IP
  *
- * Abuse protection: allowed-origin check, hidden honeypot field, minimum
- * fill time, per-IP rate limit, length limits, and header-injection-safe
- * headers (the visitor's address only ever goes into Reply-To, validated).
+ * Abuse protection: captcha, allowed-origin check, hidden honeypot field, mandatory
+ * minimum fill time, per-IP and global rate limits, length limits, and
+ * header-injection-safe headers (the visitor's address only ever goes into
+ * Reply-To, validated).
  */
 
 declare(strict_types=1);
 
 const MAX_PER_HOUR = 5;
+const MAX_GLOBAL_PER_HOUR = 30;
 const MIN_FILL_SECONDS = 3;
+const MAX_FILL_SECONDS = 86400;
 const LIMITS = ['name' => 200, 'organization' => 200, 'email' => 254, 'message' => 5000];
 
-$to = getenv('CONTACT_TO') ?: 'kpudzens@gmail.com';
+$to = getenv('CONTACT_TO') ?: '';
 $from = getenv('CONTACT_FROM') ?: 'noreply@dizainsuninterjers.lv';
 $allowedOrigins = array_map(
     'trim',
@@ -38,6 +46,11 @@ function respond(int $status, array $body): never
     http_response_code($status);
     echo json_encode($body, JSON_UNESCAPED_UNICODE);
     exit;
+}
+
+if ($to === '' || !filter_var($to, FILTER_VALIDATE_EMAIL)) {
+    error_log('dikb-contact: CONTACT_TO is not configured');
+    respond(500, ['ok' => false, 'error' => 'send']);
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
@@ -67,9 +80,45 @@ function clean(mixed $value, bool $multiline = false): string
 }
 
 // Bots: a filled honeypot or an instant submit gets a fake success, so they learn nothing.
+// startedAt is mandatory: a missing, future or stale value is treated as a bot.
 $startedAt = (int) ($input['startedAt'] ?? 0);
-if (clean($input['website'] ?? '') !== '' || ($startedAt > 0 && time() - intdiv($startedAt, 1000) < MIN_FILL_SECONDS)) {
+$elapsed = time() - intdiv($startedAt, 1000);
+if (
+    clean($input['website'] ?? '') !== ''
+    || $startedAt <= 0
+    || $elapsed < MIN_FILL_SECONDS
+    || $elapsed > MAX_FILL_SECONDS
+) {
     respond(200, ['ok' => true]);
+}
+
+// Visitor IP; CF-Connecting-IP is only trusted when explicitly enabled (site behind Cloudflare).
+$clientIp = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+if (getenv('CONTACT_TRUST_CF') === '1') {
+    $cfIp = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '';
+    if (filter_var($cfIp, FILTER_VALIDATE_IP)) {
+        $clientIp = $cfIp;
+    }
+}
+
+// Captcha (enforced whenever TURNSTILE_SECRET is configured).
+$turnstileSecret = getenv('TURNSTILE_SECRET') ?: '';
+if ($turnstileSecret !== '') {
+    $token = is_string($input['captcha'] ?? null) ? substr($input['captcha'], 0, 2048) : '';
+    $verified = false;
+    if ($token !== '') {
+        $context = stream_context_create(['http' => [
+            'method' => 'POST',
+            'header' => 'Content-Type: application/x-www-form-urlencoded',
+            'content' => http_build_query(['secret' => $turnstileSecret, 'response' => $token, 'remoteip' => $clientIp]),
+            'timeout' => 5,
+        ]]);
+        $result = @file_get_contents('https://challenges.cloudflare.com/turnstile/v0/siteverify', false, $context);
+        $verified = $result !== false && (json_decode($result, true)['success'] ?? false) === true;
+    }
+    if (!$verified) {
+        respond(400, ['ok' => false, 'error' => 'captcha']);
+    }
 }
 
 $fields = [
@@ -98,7 +147,7 @@ if ($invalid) {
 }
 
 // Per-IP rate limit. Only a hash of the IP is stored, in the system temp dir (outside the web root).
-$ipHash = hash('sha256', ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . __FILE__);
+$ipHash = hash('sha256', $clientIp . __FILE__);
 $store = sys_get_temp_dir() . '/dikb-contact-rate.json';
 $handle = fopen($store, 'c+');
 if ($handle !== false && flock($handle, LOCK_EX)) {
@@ -110,17 +159,20 @@ if ($handle !== false && flock($handle, LOCK_EX)) {
             unset($log[$key]);
         }
     }
-    if (count($log[$ipHash] ?? []) >= MAX_PER_HOUR) {
+    if (count($log[$ipHash] ?? []) >= MAX_PER_HOUR || count($log['_global'] ?? []) >= MAX_GLOBAL_PER_HOUR) {
         flock($handle, LOCK_UN);
         fclose($handle);
         respond(429, ['ok' => false, 'error' => 'rate']);
     }
     $log[$ipHash][] = time();
+    $log['_global'][] = time();
     ftruncate($handle, 0);
     rewind($handle);
     fwrite($handle, json_encode($log));
     flock($handle, LOCK_UN);
     fclose($handle);
+} else {
+    error_log('dikb-contact: rate-limit store unavailable');
 }
 
 $subjectName = $fields['organization'] !== '' ? "{$fields['name']} ({$fields['organization']})" : $fields['name'];

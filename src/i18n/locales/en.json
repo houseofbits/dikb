@@ -130,6 +130,7 @@
     "error": {
       "validation": "Please check the highlighted fields.",
       "rate": "Too many messages from this connection. Please try again in an hour, or email us directly.",
+      "captcha": "Please complete the verification check and try again.",
       "send": "Something went wrong and the message was not sent. Please email us directly."
     }
   },
