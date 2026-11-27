@@ -1,0 +1,171 @@
+{
+  "nav": {
+    "home": "Home",
+    "work": "Work",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Start a project",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "common": {
+    "viewCaseStudy": "View case study",
+    "allProjects": "All",
+    "backToWork": "Back to work",
+    "challenge": "Challenge",
+    "solution": "Solution",
+    "results": "Results",
+    "techUsed": "What we used",
+    "about": "About the project",
+    "viewAllWork": "View all work",
+    "client": "Client",
+    "year": "Year",
+    "location": "Location"
+  },
+  "home": {
+    "heroEyebrow": "Interactive exhibit & installation design studio",
+    "heroTitlePre": "We build exhibits people ",
+    "heroTitleHighlight": "touch,",
+    "heroTitlePost": " walk through and remember.",
+    "heroSubtitle": "Touchscreen kiosks, kinetic sculpture and light installations for museums, festivals and public space — designed, built and maintained by one studio.",
+    "heroCtaPrimary": "See our work",
+    "heroCtaSecondary": "Talk to us",
+    "heroStatProjects": "Installations delivered",
+    "heroStatYears": "Years in exhibit design",
+    "heroStatDisciplines": "Design disciplines",
+    "featuredEyebrow": "Selected work",
+    "featuredTitle": "On-site, in use, and still running.",
+    "featuredSubtitle": "A sample of touchscreen exhibits, kinetic sculptures and light installations we've designed and delivered.",
+    "servicesEyebrow": "What we do",
+    "servicesTitle": "From concept to a working installation",
+    "servicesSubtitle": "We cover the full path from exhibit concept to a maintained, running installation on-site.",
+    "processEyebrow": "How we work",
+    "processTitle": "A process built for museum timelines",
+    "processSubtitle": "Cultural institutions have long lead times and hard opening dates. Our process is built around both.",
+    "ctaTitle": "Have an exhibit or installation in mind?",
+    "ctaSubtitle": "Tell us about the space, the story you want to tell, and the timeline you're working with.",
+    "ctaButton": "Get in touch",
+    "heroLocation": "Riga, Latvia",
+    "indexTitle": "Index of works",
+    "indexMeta": "{count} projects · {range}"
+  },
+  "work": {
+    "eyebrow": "Our work",
+    "title": "Interactive exhibits, on-site and in use",
+    "subtitle": "Interactive exhibits, kinetic sculptures and light installations we've designed, built and shipped."
+  },
+  "workDetail": {
+    "notFoundTitle": "Project not found",
+    "notFoundBody": "This case study doesn't exist yet.",
+    "screensTitle": "A closer look",
+    "expandImage": "View full size",
+    "next": "Next project"
+  },
+  "lightbox": {
+    "close": "Close",
+    "next": "Next image",
+    "previous": "Previous image",
+    "counter": "{current} of {total}"
+  },
+  "services": {
+    "eyebrow": "Services",
+    "title": "Everything an exhibit needs to run",
+    "subtitle": "We work with museums, festivals and cultural spaces either end-to-end, or drop into a single stage of a project already underway.",
+    "processTitle": "Our process",
+    "processSubtitle": "Four stages, repeated on every installation regardless of size."
+  },
+  "process": {
+    "steps": [
+      {
+        "title": "Discover",
+        "description": "We study the space, the collection and the audience before proposing anything on screen."
+      },
+      {
+        "title": "Design",
+        "description": "Interaction flows, content structure and visual design, tested with paper and clickable prototypes."
+      },
+      {
+        "title": "Build",
+        "description": "Hardware sourcing, software build and on-site integration, scheduled around the venue's constraints."
+      },
+      {
+        "title": "Support",
+        "description": "Monitoring, content updates and on-site maintenance after opening day."
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "About us",
+    "title": "A design bureau focused on interactive exhibits and installations",
+    "subtitle": "Design and Interior Consultation Bureau designs interactive exhibits and physical installations — from museum touchscreens to kinetic sculpture and light art — for cultural institutions, festivals and public spaces.",
+    "storyTitle": "Our story",
+    "storyBody": "We started by consulting on exhibit interiors for regional museums and found ourselves designing more and more of the interactive touchscreens inside them. Today that spans both screens and physical space: interactive exhibit and installation design for institutions and festivals that want their story explored, not just viewed.",
+    "valuesTitle": "What we care about",
+    "valueDurability": "Built for public use",
+    "valueDurabilityBody": "Every interface is designed for unsupervised, all-day, all-ages use — not a controlled demo environment.",
+    "valueCuratorial": "Curator-friendly by default",
+    "valueCuratorialBody": "Content tools are built so museum staff can update exhibits themselves, without calling us first.",
+    "valueLongevity": "Designed to last",
+    "valueLongevityBody": "We favour maintainable hardware and software choices over whatever looks impressive on opening day."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let's talk about your exhibit",
+    "subtitle": "Whether you have a full brief or just a room and an idea, we'd like to hear about it.",
+    "formName": "Name",
+    "formOrg": "Institution",
+    "formEmail": "Email",
+    "formMessage": "Tell us about your project",
+    "formSubmit": "Send message",
+    "formNote": "We only use your details to reply to this message.",
+    "detailsTitle": "Or reach us directly",
+    "emailLabel": "Email",
+    "phoneLabel": "Phone",
+    "addressLabel": "Studio",
+    "sending": "Sending…",
+    "sentTitle": "Message sent.",
+    "sentBody": "Thank you — we usually reply within two working days.",
+    "sendAnother": "Send another message",
+    "error": {
+      "validation": "Please check the highlighted fields.",
+      "rate": "Too many messages from this connection. Please try again in an hour, or email us directly.",
+      "send": "Something went wrong and the message was not sent. Please email us directly."
+    }
+  },
+  "footer": {
+    "tagline": "Interactive exhibit design for museums and cultural institutions.",
+    "navTitle": "Site",
+    "contactTitle": "Contact",
+    "rights": "All rights reserved.",
+    "ctaTitle": "Have a room and an idea?",
+    "emailPhone": "Email / Phone",
+    "studio": "Studio"
+  },
+  "seo": {
+    "home": {
+      "title": "DIKB — Interactive Exhibits & Installations",
+      "description": "Design and Interior Consultation Bureau designs and builds interactive exhibits, touchscreen installations, kinetic sculptures and light installations for museums, cultural institutions and public spaces."
+    },
+    "work": {
+      "title": "Our Work — DIKB",
+      "description": "Interactive touchscreen exhibits, timelines and wayfinding systems designed and delivered by DIKB for museums and cultural institutions."
+    },
+    "services": {
+      "title": "Services — DIKB",
+      "description": "Exhibit design, UX/UI for public touchscreens, content strategy, hardware integration and maintenance — everything an interactive exhibit needs."
+    },
+    "about": {
+      "title": "About Us — DIKB",
+      "description": "Design and Interior Consultation Bureau is a design studio focused exclusively on interactive touchscreen exhibits for museums and cultural institutions."
+    },
+    "contact": {
+      "title": "Contact — DIKB",
+      "description": "Get in touch with Design and Interior Consultation Bureau about an interactive exhibit project."
+    },
+    "workDetail": {
+      "notFoundTitle": "Project Not Found — DIKB",
+      "notFoundDescription": "This case study doesn't exist yet."
+    }
+  }
+}
