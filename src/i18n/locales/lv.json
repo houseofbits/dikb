@@ -1,0 +1,172 @@
+{
+  "nav": {
+    "home": "Sākums",
+    "work": "Darbi",
+    "services": "Pakalpojumi",
+    "about": "Par mums",
+    "contact": "Kontakti",
+    "cta": "Sākt projektu",
+    "menu": "Izvēlne",
+    "close": "Aizvērt"
+  },
+  "common": {
+    "viewCaseStudy": "Skatīt projektu",
+    "allProjects": "Visi",
+    "backToWork": "Atpakaļ uz darbiem",
+    "challenge": "Izaicinājums",
+    "solution": "Risinājums",
+    "results": "Rezultāti",
+    "techUsed": "Ko izmantojām",
+    "about": "Par projektu",
+    "viewAllWork": "Skatīt visus darbus",
+    "client": "Klients",
+    "year": "Gads",
+    "location": "Vieta"
+  },
+  "home": {
+    "heroEyebrow": "Interaktīvo ekspozīciju un instalāciju dizaina birojs",
+    "heroTitlePre": "Ekspozīcijas, kurām ",
+    "heroTitleHighlight": "pieskarties,",
+    "heroTitlePost": " iziet cauri un atcerēties.",
+    "heroSubtitle": "Skārienekrāna stendi, kinētiskas skulptūras un gaismas instalācijas muzejiem, festivāliem un publiskām telpām — vienas studijas izstrādāti, izbūvēti un uzturēti.",
+    "heroCtaPrimary": "Skatīt darbus",
+    "heroCtaSecondary": "Sazinieties ar mums",
+    "heroStatProjects": "Realizētas instalācijas",
+    "heroStatYears": "Gadi ekspozīciju dizainā",
+    "heroStatDisciplines": "Dizaina disciplīnas",
+    "featuredEyebrow": "Izceltie darbi",
+    "featuredTitle": "Uzstādīti, lietoti un joprojām darbojas.",
+    "featuredSubtitle": "Daži skārienekrāna ekspozīciju, kinētisko skulptūru un gaismas instalāciju piemēri, ko esam izstrādājuši un realizējuši.",
+    "servicesEyebrow": "Ko mēs darām",
+    "servicesTitle": "No idejas līdz gatavai instalācijai",
+    "servicesSubtitle": "Mēs nosedzam visu ceļu no ekspozīcijas idejas līdz uzturētai, darbojošai instalācijai uz vietas.",
+    "processEyebrow": "Kā mēs strādājam",
+    "processTitle": "Process, kas veidots muzeju termiņiem",
+    "processSubtitle": "Kultūras institūcijām ir gari sagatavošanas termiņi un fiksēti atklāšanas datumi. Mūsu process ir veidots ar to prātā.",
+    "ctaTitle": "Ir ideja par ekspozīciju vai instalāciju?",
+    "ctaSubtitle": "Pastāstiet mums par telpu, stāstu, ko vēlaties izstāstīt, un termiņu, ar kuru strādājat.",
+    "ctaButton": "Sazināties",
+    "heroLocation": "Rīga, Latvija",
+    "indexTitle": "Darbu rādītājs",
+    "indexMeta": "Projekti: {count} · {range}"
+  },
+  "work": {
+    "eyebrow": "Mūsu darbi",
+    "title": "Interaktīvas ekspozīcijas, uzstādītas un lietošanā",
+    "subtitle": "Interaktīvas ekspozīcijas, kinētiskās skulptūras un gaismas instalācijas, ko esam izstrādājuši, izbūvējuši un realizējuši."
+  },
+  "workDetail": {
+    "notFoundTitle": "Projekts nav atrasts",
+    "notFoundBody": "Šis projekta apraksts vēl neeksistē.",
+    "screensTitle": "Tuvāk apskatot",
+    "expandImage": "Skatīt pilnā izmērā",
+    "next": "Nākamais projekts"
+  },
+  "lightbox": {
+    "close": "Aizvērt",
+    "next": "Nākamais attēls",
+    "previous": "Iepriekšējais attēls",
+    "counter": "{current} no {total}"
+  },
+  "services": {
+    "eyebrow": "Pakalpojumi",
+    "title": "Viss, kas nepieciešams ekspozīcijas darbībai",
+    "subtitle": "Mēs strādājam ar muzejiem, festivāliem un kultūras telpām gan pilnā apjomā, gan pievienojoties kādā konkrētā jau iesākta projekta posmā.",
+    "processTitle": "Mūsu process",
+    "processSubtitle": "Četri posmi, kas atkārtojas katrā instalācijā, neatkarīgi no tās apjoma."
+  },
+  "process": {
+    "steps": [
+      {
+        "title": "Izpēte",
+        "description": "Mēs izpētām telpu, kolekciju un auditoriju, pirms piedāvājam kaut ko ekrānā."
+      },
+      {
+        "title": "Dizains",
+        "description": "Mijiedarbības plūsmas, satura struktūra un vizuālais dizains, testēts ar papīra un klikšķināmiem prototipiem."
+      },
+      {
+        "title": "Realizācija",
+        "description": "Aparatūras nodrošinājums, programmatūras izstrāde un integrācija uz vietas, plānota atbilstoši telpas iespējām."
+      },
+      {
+        "title": "Atbalsts",
+        "description": "Pārraudzība, satura atjaunināšana un uzturēšana uz vietas pēc atklāšanas dienas."
+      }
+    ]
+  },
+  "about": {
+    "eyebrow": "Par mums",
+    "title": "Dizaina birojs, kas fokusējies uz interaktīvām ekspozīcijām un instalācijām",
+    "subtitle": "Design and Interior Consultation Bureau izstrādā interaktīvas ekspozīcijas un fiziskas instalācijas — no muzeju skārienekrāniem līdz kinētiskajai skulptūrai un gaismas mākslai — kultūras institūcijām, festivāliem un publiskām telpām.",
+    "storyTitle": "Mūsu stāsts",
+    "storyBody": "Sākām, konsultējot par ekspozīciju interjeriem reģionālajiem muzejiem, un pamanījām, ka izstrādājam arvien vairāk to interaktīvo skārienekrānu. Šodien tas aptver gan ekrānus, gan fizisko telpu: interaktīvu ekspozīciju un instalāciju dizains institūcijām un festivāliem, kas vēlas, lai to stāsts tiktu izpētīts, nevis tikai apskatīts.",
+    "valuesTitle": "Kas mums ir svarīgs",
+    "valueDurability": "Veidots publiskai lietošanai",
+    "valueDurabilityBody": "Katra saskarne ir veidota lietošanai bez uzraudzības, visas dienas garumā, visu vecumu apmeklētājiem — ne kontrolētai demonstrācijas videi.",
+    "valueCuratorial": "Draudzīgs kuratoriem",
+    "valueCuratorialBody": "Satura rīki ir veidoti tā, lai muzeja personāls varētu pats atjaunināt ekspozīcijas, iepriekš nesazinoties ar mums.",
+    "valueLongevity": "Veidots, lai ilgtu",
+    "valueLongevityBody": "Mēs izvēlamies uzturamu aparatūru un programmatūru, ne tikai to, kas izskatās iespaidīgi atklāšanas dienā."
+  },
+  "contact": {
+    "eyebrow": "Kontakti",
+    "title": "Runāsim par jūsu ekspozīciju",
+    "subtitle": "Neatkarīgi no tā, vai jums ir pilns projekta uzdevums vai tikai telpa un ideja, mēs gribētu par to uzzināt.",
+    "formName": "Vārds",
+    "formOrg": "Institūcija",
+    "formEmail": "E-pasts",
+    "formMessage": "Pastāstiet par savu projektu",
+    "formSubmit": "Nosūtīt ziņu",
+    "formNote": "Jūsu datus izmantojam tikai, lai atbildētu uz šo ziņu.",
+    "detailsTitle": "Vai sazinieties tieši",
+    "emailLabel": "E-pasts",
+    "phoneLabel": "Tālrunis",
+    "addressLabel": "Studija",
+    "sending": "Sūta…",
+    "sentTitle": "Ziņa nosūtīta.",
+    "sentBody": "Paldies — parasti atbildam divu darba dienu laikā.",
+    "sendAnother": "Sūtīt vēl vienu ziņu",
+    "error": {
+      "validation": "Lūdzu, pārbaudiet iezīmētos laukus.",
+      "rate": "No šī savienojuma nosūtīts pārāk daudz ziņu. Lūdzu, mēģiniet vēlreiz pēc stundas vai rakstiet mums e-pastu.",
+      "captcha": "Lūdzu, pabeidziet drošības pārbaudi un mēģiniet vēlreiz.",
+      "send": "Radās kļūda, un ziņa netika nosūtīta. Lūdzu, rakstiet mums e-pastu."
+    }
+  },
+  "footer": {
+    "tagline": "Interaktīvu ekspozīciju dizains muzejiem un kultūras institūcijām.",
+    "navTitle": "Lapa",
+    "contactTitle": "Kontakti",
+    "rights": "Visas tiesības aizsargātas.",
+    "ctaTitle": "Jums ir telpa un ideja?",
+    "emailPhone": "E-pasts / Tālrunis",
+    "studio": "Studija"
+  },
+  "seo": {
+    "home": {
+      "title": "DIKB — Interaktīvas ekspozīcijas un instalācijas",
+      "description": "Design and Interior Consultation Bureau izstrādā un realizē interaktīvas ekspozīcijas, skārienekrānu instalācijas, kinētiskās skulptūras un gaismas instalācijas muzejiem, kultūras institūcijām un publiskām telpām."
+    },
+    "work": {
+      "title": "Mūsu darbi — DIKB",
+      "description": "Interaktīvas skārienekrāna ekspozīcijas, laika skalas un navigācijas sistēmas, ko DIKB izstrādājis un realizējis muzejiem un kultūras institūcijām."
+    },
+    "services": {
+      "title": "Pakalpojumi — DIKB",
+      "description": "Ekspozīciju dizains, UX/UI publiskiem skārienekrāniem, satura stratēģija, aparatūras integrācija un uzturēšana — viss, kas nepieciešams interaktīvai ekspozīcijai."
+    },
+    "about": {
+      "title": "Par mums — DIKB",
+      "description": "Design and Interior Consultation Bureau ir dizaina birojs, kas fokusējies tikai uz interaktīvām skārienekrāna ekspozīcijām muzejiem un kultūras institūcijām."
+    },
+    "contact": {
+      "title": "Kontakti — DIKB",
+      "description": "Sazinieties ar Design and Interior Consultation Bureau par interaktīvas ekspozīcijas projektu."
+    },
+    "workDetail": {
+      "notFoundTitle": "Projekts nav atrasts — DIKB",
+      "notFoundDescription": "Šis projekta apraksts vēl neeksistē."
+    }
+  }
+}

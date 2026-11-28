@@ -1,0 +1,2 @@
+# The contact endpoint only needs a tiny JSON body.
+LimitRequestBody 32768

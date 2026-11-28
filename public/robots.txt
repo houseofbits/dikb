@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://dizainsuninterjers.lv/sitemap.xml
